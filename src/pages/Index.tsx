@@ -1,4 +1,3 @@
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -20,12 +19,11 @@ const Index = () => {
           <Link to="/menu-guest">
             <Button size="lg" variant="outline" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Khách</Button>
           </Link>
-          <Link to="/menu-user"> {/* Thêm nút cho MenuUser */}
+          <Link to="/menu-user">
             <Button size="lg" variant="default" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Người dùng</Button>
           </Link>
         </div>
       </div>
-      <MadeWithDyad />
     </div>
   );
 };

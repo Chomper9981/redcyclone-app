@@ -1,5 +1,4 @@
 import React from 'react';
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContentGridPlaceholder from '@/components/ContentGridPlaceholder';
 import PaginationComponent from '@/components/PaginationComponent';
@@ -85,7 +84,6 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({
           <PaginationComponent />
         </section>
       </main>
-      <MadeWithDyad />
     </div>
   );
 };
