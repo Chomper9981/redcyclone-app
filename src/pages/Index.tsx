@@ -22,6 +22,9 @@ const Index = () => {
           <Link to="/menu-user">
             <Button size="lg" variant="default" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Người dùng</Button>
           </Link>
+          <Link to="/profile-user">
+            <Button size="lg" variant="ghost" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Hồ sơ Người dùng</Button>
+          </Link>
         </div>
       </div>
     </div>
