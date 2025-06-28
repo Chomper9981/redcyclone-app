@@ -20,6 +20,9 @@ const Index = () => {
           <Link to="/menu-guest">
             <Button size="lg" variant="outline" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Khách</Button>
           </Link>
+          <Link to="/menu-user"> {/* Thêm nút cho MenuUser */}
+            <Button size="lg" variant="default" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Người dùng</Button>
+          </Link>
         </div>
       </div>
       <MadeWithDyad />

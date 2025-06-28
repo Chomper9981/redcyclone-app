@@ -7,8 +7,9 @@ import Index from "./pages/Index";
 import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import MenuGuest from "./pages/MenuGuest";
+import MenuUser from "./pages/MenuUser"; // Import MenuUser
 import NotFound from "./pages/NotFound";
-import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -18,12 +19,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop /> {/* Thêm ScrollToTop vào đây */}
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/menu-guest" element={<MenuGuest />} />
+          <Route path="/menu-user" element={<MenuUser />} /> {/* Thêm route cho MenuUser */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
