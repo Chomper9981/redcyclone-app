@@ -2,7 +2,12 @@ import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const ContentGridPlaceholder: React.FC = () => {
+interface ContentGridPlaceholderProps {
+  mainTab?: string;
+  subTab?: string;
+}
+
+const ContentGridPlaceholder: React.FC<ContentGridPlaceholderProps> = ({ mainTab, subTab }) => {
   // Tạo 10 mục placeholder
   const items = Array.from({ length: 10 });
 
