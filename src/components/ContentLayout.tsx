@@ -41,14 +41,14 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({
               <TabsTrigger value="guide" className="flex-1 whitespace-nowrap">Game Guide</TabsTrigger>
               <TabsTrigger value="dev-guide" className="flex-1 whitespace-nowrap">Dev Guide</TabsTrigger>
               <TabsTrigger value="game" className="flex-1 whitespace-nowrap">Game</TabsTrigger>
-              <TabsTrigger value="official" className="flex-1 whitespace-nowrap">Official</TabsTrigger>
+              {/* Removed Official Tab */}
             </TabsList>
             {/* Nội dung tab này sẽ không hiển thị trực tiếp mà sẽ ảnh hưởng đến ContentGridPlaceholder */}
             <TabsContent value="news" className="hidden"></TabsContent>
             <TabsContent value="guide" className="hidden"></TabsContent>
             <TabsContent value="dev-guide" className="hidden"></TabsContent>
             <TabsContent value="game" className="hidden"></TabsContent>
-            <TabsContent value="official" className="hidden"></TabsContent>
+            {/* Removed Official Tab Content */}
           </Tabs>
         </section>
 
