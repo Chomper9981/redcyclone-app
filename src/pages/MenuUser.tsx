@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import UserHeader from '@/components/UserHeader';
-import { Button } from "@/components/ui/button";
 import ContentLayout from '@/components/ContentLayout'; // Import ContentLayout
 
 const MenuUser: React.FC = () => {
@@ -29,11 +28,7 @@ const MenuUser: React.FC = () => {
       setSubTab={setSubTab}
       subTabOptions={userSubTabOptions}
     >
-      {/* Hàng mới: Chức năng đăng bài */}
-      <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center justify-between">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Đăng bài mới</h3>
-        <Button>Tạo bài viết mới</Button>
-      </section>
+      {/* Phần nội dung độc đáo của MenuUser (nếu có) sẽ được thêm vào đây sau */}
     </ContentLayout>
   );
 };
