@@ -10,9 +10,14 @@ const Index = () => {
         <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
           Bắt đầu xây dựng dự án tuyệt vời của bạn tại đây!
         </p>
-        <Link to="/login">
-          <Button size="lg" className="px-8 py-4 text-lg">Đi đến Đăng nhập</Button>
-        </Link>
+        <div className="flex space-x-4 justify-center">
+          <Link to="/login">
+            <Button size="lg" className="px-8 py-4 text-lg">Đi đến Đăng nhập</Button>
+          </Link>
+          <Link to="/admin">
+            <Button size="lg" variant="secondary" className="px-8 py-4 text-lg">Đi đến Admin</Button>
+          </Link>
+        </div>
       </div>
       <MadeWithDyad />
     </div>
