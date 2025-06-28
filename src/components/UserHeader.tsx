@@ -1,7 +1,8 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Plus } from 'lucide-react'; // Import Bell and Plus icons
+import { Bell, Plus, Search } from 'lucide-react'; // Import Bell, Plus, and Search icons
 import { Button } from "@/components/ui/button"; // Ensure Button is imported
+import { Input } from "@/components/ui/input"; // Import Input
 
 interface UserHeaderProps {
   userName?: string;
@@ -20,7 +21,17 @@ const UserHeader: React.FC<UserHeaderProps> = ({ userName = "User", userAvatarUr
         />
       </div>
 
-      {/* New: Post, Notification Buttons and User Avatar */}
+      {/* Search Bar */}
+      <div className="relative flex-grow mx-4 max-w-md">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+        <Input
+          type="text"
+          placeholder="Tìm kiếm..."
+          className="pl-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+
+      {/* Post, Notification Buttons and User Avatar */}
       <div className="flex items-center space-x-3">
         {/* Post Button */}
         <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
