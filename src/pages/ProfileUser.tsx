@@ -17,7 +17,8 @@ const ProfileUser: React.FC = () => {
     name: "Người dùng Dyad",
     email: "user@example.com",
     bio: "Đây là một đoạn giới thiệu ngắn về người dùng. Họ yêu thích công nghệ và phát triển web.",
-    avatarUrl: "https://github.com/shadcn.png"
+    avatarUrl: "https://github.com/shadcn.png",
+    followers: 1234 // Thêm số người theo dõi giả định
   };
 
   const profileMainTabOptions = [
@@ -50,9 +51,14 @@ const ProfileUser: React.FC = () => {
                   {currentUser.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                {currentUser.name}
-              </h3>
+              <div>
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                  {currentUser.name}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Số người theo dõi: {currentUser.followers}
+                </p>
+              </div>
             </div>
             <div className="text-right">
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Quốc Hồn:</p>
