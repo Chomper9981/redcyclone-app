@@ -12,15 +12,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
-      <div className="text-center">
+      <div className="text-center max-w-md w-full"> {/* Thêm max-w-md và w-full để giới hạn chiều rộng và căn giữa */}
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">Chào mừng đến với ứng dụng của bạn</h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
           Bắt đầu xây dựng dự án tuyệt vời của bạn tại đây!
         </p>
-        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center flex-wrap">
+        <div className="flex flex-col space-y-4"> {/* Thay đổi thành flex-col và space-y-4 */}
           {navigationLinks.map((link, index) => (
-            <Link to={link.to} key={index}>
-              <Button size="lg" variant={link.variant} className="w-full sm:w-auto px-8 py-4 text-lg">
+            <Link to={link.to} key={index} className="w-full"> {/* Đảm bảo Link chiếm toàn bộ chiều rộng */}
+              <Button size="lg" variant={link.variant} className="w-full px-8 py-4 text-lg"> {/* Nút chiếm toàn bộ chiều rộng */}
                 {link.label}
               </Button>
             </Link>
