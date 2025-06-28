@@ -34,7 +34,7 @@ const ProfileUser: React.FC = () => {
             </div>
             <div className="text-right">
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Quốc Hồn:</p>
-              <p className="text-lg text-gray-900 dark:text-gray-100">Chưa có Quốc Hồn</p> {/* Placeholder */}
+              <p className="text-lg text-gray-900 dark:text-gray-100">0</p> {/* Placeholder */}
             </div>
           </CardContent>
         </Card>
