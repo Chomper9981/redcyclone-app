@@ -38,12 +38,12 @@ const MenuGuest: React.FC = () => {
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="latest">Mới nhất</TabsTrigger>
               <TabsTrigger value="hot">Hot nhất</TabsTrigger>
-              <TabsTrigger value="pending">Đang đợi duyệt</TabsTrigger>
+              <TabsTrigger value="following">Đang theo dõi</TabsTrigger> {/* Đã đổi tên tab này */}
             </TabsList>
             {/* Nội dung tab này sẽ không hiển thị trực tiếp mà sẽ ảnh hưởng đến ContentGridPlaceholder */}
             <TabsContent value="latest" className="hidden"></TabsContent>
             <TabsContent value="hot" className="hidden"></TabsContent>
-            <TabsContent value="pending" className="hidden"></TabsContent>
+            <TabsContent value="following" className="hidden"></TabsContent> {/* Cập nhật value tương ứng */}
           </Tabs>
         </section>
 
