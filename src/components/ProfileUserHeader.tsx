@@ -16,7 +16,7 @@ const ProfileUserHeader: React.FC<ProfileUserHeaderProps> = ({ userName = "User"
         <img
           src="https://via.placeholder.com/40x40?text=Logo" // Placeholder logo URL
           alt="Company Logo"
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10" // Removed rounded-full
         />
       </div>
 

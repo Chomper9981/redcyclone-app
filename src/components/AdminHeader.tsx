@@ -16,7 +16,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvata
         <img
           src="https://via.placeholder.com/40x40?text=Logo" // Placeholder logo URL
           alt="Company Logo"
-          className="w-10 h-10 rounded-full" // Adjust styling as needed
+          className="w-10 h-10" // Removed rounded-full
         />
       </div>
 
