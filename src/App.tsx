@@ -5,7 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import LoginPage from "./pages/LoginPage";
-import AdminDashboard from "./pages/AdminDashboard"; // Import AdminDashboard
+import AdminDashboard from "./pages/AdminDashboard";
+import MenuGuest from "./pages/MenuGuest"; // Import MenuGuest
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,7 +20,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/admin" element={<AdminDashboard />} /> {/* Add the admin route */}
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/menu-guest" element={<MenuGuest />} /> {/* Add the menu-guest route */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
