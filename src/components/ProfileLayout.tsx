@@ -116,10 +116,11 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
             {mainTab === "news" && "Tin tức mới nhất"}
             {mainTab === "guide" && "Hướng dẫn Game"}
             {mainTab === "dev-guide" && "Hướng dẫn Phát triển"}
+            {mainTab === "my-posts" && "Bài viết của tôi"} {/* New tab title */}
             {mainTab === "following" && "Danh sách đang theo dõi"}
             {mainTab === "notifications" && "Thông báo của bạn"}
           </h3>
-          {(mainTab === "news" || mainTab === "guide" || mainTab === "dev-guide") ? (
+          {(mainTab === "news" || mainTab === "guide" || mainTab === "dev-guide" || mainTab === "my-posts") ? (
             <>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Đang hiển thị nội dung cho: **{mainTab}** (phụ: **{subTab}**)
