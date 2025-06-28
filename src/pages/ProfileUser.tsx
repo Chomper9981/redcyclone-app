@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProfileUserHeader from '@/components/ProfileUserHeader';
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContentGridPlaceholder from '@/components/ContentGridPlaceholder';
+import PaginationComponent from '@/components/PaginationComponent';
+import FollowingList from '@/components/FollowingList';
+import NotificationList from '@/components/NotificationList';
 
 const ProfileUser: React.FC = () => {
+  const [mainTab, setMainTab] = useState("news"); // State cho 5 tab chính
+  const [subTab, setSubTab] = useState("latest"); // State cho 3 tab phụ
+
   // Dữ liệu người dùng giả định
   const currentUser = {
     name: "Người dùng Dyad",
@@ -11,6 +19,20 @@ const ProfileUser: React.FC = () => {
     bio: "Đây là một đoạn giới thiệu ngắn về người dùng. Họ yêu thích công nghệ và phát triển web.",
     avatarUrl: "https://github.com/shadcn.png"
   };
+
+  const profileMainTabOptions = [
+    { value: "news", label: "Tin tức" },
+    { value: "guide", label: "Game Guide" },
+    { value: "dev-guide", label: "Dev Guide" },
+    { value: "following", label: "Được theo dõi" },
+    { value: "notifications", label: "Thông báo" },
+  ];
+
+  const profileSubTabOptions = [
+    { value: "latest", label: "Mới nhất" },
+    { value: "hot", label: "Hot nhất" },
+    { value: "following", label: "Đang theo dõi" },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
@@ -39,12 +61,59 @@ const ProfileUser: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Các phần khác của hồ sơ có thể được thêm vào đây sau */}
-        <Card>
-          <CardContent>
-            <p className="text-gray-600 dark:text-gray-400">Các thông tin khác về người dùng sẽ được hiển thị tại đây.</p>
-          </CardContent>
-        </Card>
+        {/* Hàng 3: Các tab chính (Tin tức, Game Guide, Dev Guide, Được theo dõi, Thông báo) */}
+        <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+          <Tabs defaultValue="news" value={mainTab} onValueChange={setMainTab}>
+            <TabsList className="flex w-full flex-nowrap overflow-x-auto">
+              {profileMainTabOptions.map(option => (
+                <TabsTrigger key={option.value} value={option.value} className="flex-1 whitespace-nowrap">
+                  {option.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </section>
+
+        {/* Hàng 4: Các tab phụ (Mới nhất, Hot nhất, Đang theo dõi) - chỉ hiển thị cho Tin tức, Game Guide, Dev Guide */}
+        {(mainTab === "news" || mainTab === "guide" || mainTab === "dev-guide") && (
+          <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <Tabs defaultValue="latest" value={subTab} onValueChange={setSubTab}>
+              <TabsList className="flex w-full flex-nowrap overflow-x-auto">
+                {profileSubTabOptions.map(option => (
+                  <TabsTrigger key={option.value} value={option.value} className="flex-1 whitespace-nowrap">
+                    {option.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </section>
+        )}
+
+        {/* Hàng 5: Nội dung chính dựa trên tab đã chọn */}
+        <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            {mainTab === "news" && "Tin tức mới nhất"}
+            {mainTab === "guide" && "Hướng dẫn Game"}
+            {mainTab === "dev-guide" && "Hướng dẫn Phát triển"}
+            {mainTab === "following" && "Danh sách đang theo dõi"}
+            {mainTab === "notifications" && "Thông báo của bạn"}
+          </h3>
+          {mainTab === "news" || mainTab === "guide" || mainTab === "dev-guide" ? (
+            <>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                Đang hiển thị nội dung cho: **{mainTab}** (phụ: **{subTab}**)
+              </p>
+              <ContentGridPlaceholder mainTab={mainTab} subTab={subTab} />
+              <div className="flex justify-center mt-8">
+                <PaginationComponent />
+              </div>
+            </>
+          ) : mainTab === "following" ? (
+            <FollowingList />
+          ) : mainTab === "notifications" ? (
+            <NotificationList />
+          ) : null}
+        </section>
       </main>
     </div>
   );
