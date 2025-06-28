@@ -1,7 +1,7 @@
 import React from 'react';
 import ProfileUserHeader from '@/components/ProfileUserHeader';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ProfileUser: React.FC = () => {
   // Dữ liệu người dùng giả định
@@ -18,38 +18,31 @@ const ProfileUser: React.FC = () => {
       <main className="flex-grow p-4 container mx-auto">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Hồ sơ người dùng</h2>
 
+        {/* Hàng chứa Avatar, Tên người dùng và Quốc Hồn */}
         <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Thông tin cá nhân</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4">
-              <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Tên:</p>
-                <p className="text-lg text-gray-900 dark:text-gray-100">{currentUser.name}</p>
-              </div>
-              <Separator />
-              <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Email:</p>
-                <p className="text-lg text-gray-900 dark:text-gray-100">{currentUser.email}</p>
-              </div>
-              <Separator />
-              <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Giới thiệu:</p>
-                <p className="text-lg text-gray-900 dark:text-gray-100">{currentUser.bio}</p>
-              </div>
+          <CardContent className="flex items-center justify-between p-4">
+            <div className="flex items-center space-x-4">
+              <Avatar className="h-20 w-20"> {/* Avatar lớn hơn */}
+                <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
+                <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white text-2xl">
+                  {currentUser.name.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                {currentUser.name}
+              </h3>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Quốc Hồn:</p>
+              <p className="text-lg text-gray-900 dark:text-gray-100">Chưa có Quốc Hồn</p> {/* Placeholder */}
             </div>
           </CardContent>
         </Card>
 
-        {/* Các phần khác của hồ sơ có thể được thêm vào đây */}
+        {/* Các phần khác của hồ sơ có thể được thêm vào đây sau */}
         <Card>
-          <CardHeader>
-            <CardTitle>Bài viết của tôi</CardTitle>
-          </CardHeader>
           <CardContent>
-            <p className="text-gray-600 dark:text-gray-400">Chưa có bài viết nào được đăng.</p>
-            {/* Đây sẽ là nơi hiển thị danh sách bài viết của người dùng */}
+            <p className="text-gray-600 dark:text-gray-400">Các thông tin khác về người dùng sẽ được hiển thị tại đây.</p>
           </CardContent>
         </Card>
       </main>
