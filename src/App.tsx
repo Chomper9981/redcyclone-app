@@ -8,7 +8,8 @@ import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import MenuGuest from "./pages/MenuGuest";
 import MenuUser from "./pages/MenuUser";
-import ProfileUser from "./pages/ProfileUser"; // Import ProfileUser
+import ProfileUser from "./pages/ProfileUser";
+import ProfileOtherUser from "./pages/ProfileOtherUser"; // Import ProfileOtherUser
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -27,7 +28,8 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/menu-guest" element={<MenuGuest />} />
           <Route path="/menu-user" element={<MenuUser />} />
-          <Route path="/profile-user" element={<ProfileUser />} /> {/* Thêm route cho ProfileUser */}
+          <Route path="/profile-user" element={<ProfileUser />} />
+          <Route path="/profile-other-user" element={<ProfileOtherUser />} /> {/* Thêm route cho ProfileOtherUser */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -8,6 +8,7 @@ const Index = () => {
     { to: "/menu-guest", label: "Đi đến Giao diện Khách", variant: "outline" },
     { to: "/menu-user", label: "Đi đến Giao diện Người dùng", variant: "default" },
     { to: "/profile-user", label: "Đi đến Hồ sơ Người dùng", variant: "ghost" },
+    { to: "/profile-other-user", label: "Đi đến Hồ sơ Người dùng Khác", variant: "destructive" }, // Thêm liên kết mới
   ];
 
   return (
