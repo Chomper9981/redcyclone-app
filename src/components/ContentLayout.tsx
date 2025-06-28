@@ -36,17 +36,18 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({
         {/* Hàng: 4 tab chính (bộ lọc) */}
         <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
           <Tabs defaultValue="news" value={mainTab} onValueChange={setMainTab}>
-            <TabsList className="grid w-full grid-cols-5"> {/* Updated to grid-cols-5 */}
-              <TabsTrigger value="news">Tin tức</TabsTrigger>
-              <TabsTrigger value="guide">Game Guide</TabsTrigger> {/* Renamed */}
-              <TabsTrigger value="dev-guide">Dev Guide</TabsTrigger> {/* New tab */}
-              <TabsTrigger value="game">Game</TabsTrigger>
-              <TabsTrigger value="official">Official</TabsTrigger>
+            {/* Sử dụng flexbox để đảm bảo các tab nằm trên một hàng, flex-nowrap ngăn chúng xuống dòng */}
+            <TabsList className="flex w-full flex-nowrap overflow-x-auto">
+              <TabsTrigger value="news" className="flex-1 whitespace-nowrap">Tin tức</TabsTrigger>
+              <TabsTrigger value="guide" className="flex-1 whitespace-nowrap">Game Guide</TabsTrigger>
+              <TabsTrigger value="dev-guide" className="flex-1 whitespace-nowrap">Dev Guide</TabsTrigger>
+              <TabsTrigger value="game" className="flex-1 whitespace-nowrap">Game</TabsTrigger>
+              <TabsTrigger value="official" className="flex-1 whitespace-nowrap">Official</TabsTrigger>
             </TabsList>
             {/* Nội dung tab này sẽ không hiển thị trực tiếp mà sẽ ảnh hưởng đến ContentGridPlaceholder */}
             <TabsContent value="news" className="hidden"></TabsContent>
             <TabsContent value="guide" className="hidden"></TabsContent>
-            <TabsContent value="dev-guide" className="hidden"></TabsContent> {/* New tab content */}
+            <TabsContent value="dev-guide" className="hidden"></TabsContent>
             <TabsContent value="game" className="hidden"></TabsContent>
             <TabsContent value="official" className="hidden"></TabsContent>
           </Tabs>
@@ -55,9 +56,12 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({
         {/* Hàng: Các tab phụ (bộ lọc) */}
         <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
           <Tabs defaultValue="latest" value={subTab} onValueChange={setSubTab}>
-            <TabsList className={`grid w-full grid-cols-${subTabOptions.length}`}>
+            {/* Sử dụng flexbox để đảm bảo các tab nằm trên một hàng, flex-nowrap ngăn chúng xuống dòng */}
+            <TabsList className="flex w-full flex-nowrap overflow-x-auto">
               {subTabOptions.map(option => (
-                <TabsTrigger key={option.value} value={option.value}>{option.label}</TabsTrigger>
+                <TabsTrigger key={option.value} value={option.value} className="flex-1 whitespace-nowrap">
+                  {option.label}
+                </TabsTrigger>
               ))}
             </TabsList>
             {/* Nội dung tab này sẽ không hiển thị trực tiếp mà sẽ ảnh hưởng đến ContentGridPlaceholder */}
