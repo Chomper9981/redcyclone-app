@@ -18,7 +18,7 @@ const ProfileUser: React.FC = () => {
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
     { value: "dev-guide", label: "Dev Guide" },
-    { value: "my-posts", label: "Bài viết của tôi" }, // Thêm tab mới
+    { value: "game", label: "Game" }, // Updated tab label
     { value: "following", label: "Được theo dõi" },
     { value: "notifications", label: "Thông báo" },
   ];
