@@ -36,15 +36,17 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({
         {/* Hàng: 4 tab chính (bộ lọc) */}
         <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
           <Tabs defaultValue="news" value={mainTab} onValueChange={setMainTab}>
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5"> {/* Updated to grid-cols-5 */}
               <TabsTrigger value="news">Tin tức</TabsTrigger>
-              <TabsTrigger value="guide">Guide</TabsTrigger>
+              <TabsTrigger value="guide">Game Guide</TabsTrigger> {/* Renamed */}
+              <TabsTrigger value="dev-guide">Dev Guide</TabsTrigger> {/* New tab */}
               <TabsTrigger value="game">Game</TabsTrigger>
               <TabsTrigger value="official">Official</TabsTrigger>
             </TabsList>
             {/* Nội dung tab này sẽ không hiển thị trực tiếp mà sẽ ảnh hưởng đến ContentGridPlaceholder */}
             <TabsContent value="news" className="hidden"></TabsContent>
             <TabsContent value="guide" className="hidden"></TabsContent>
+            <TabsContent value="dev-guide" className="hidden"></TabsContent> {/* New tab content */}
             <TabsContent value="game" className="hidden"></TabsContent>
             <TabsContent value="official" className="hidden"></TabsContent>
           </Tabs>
