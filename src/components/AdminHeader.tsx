@@ -11,11 +11,13 @@ interface AdminHeaderProps {
 const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvatarUrl }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-      {/* Logo Placeholder */}
+      {/* Logo */}
       <div className="flex items-center space-x-2">
-        <div className="w-10 h-10 bg-blue-500 dark:bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-          L
-        </div>
+        <img
+          src="https://via.placeholder.com/40x40?text=Logo" // Placeholder logo URL
+          alt="Company Logo"
+          className="w-10 h-10 rounded-full" // Adjust styling as needed
+        />
         <span className="text-xl font-semibold text-gray-900 dark:text-gray-100 hidden md:block">Admin Panel</span>
       </div>
 
