@@ -5,7 +5,7 @@ import path from "path";
 
 export default defineConfig(() => ({
   server: {
-    host: "::",
+    host: "::", // Dòng này cho phép truy cập từ các thiết bị khác trong cùng mạng
     port: 8080,
   },
   plugins: [dyadComponentTagger(), react()],
