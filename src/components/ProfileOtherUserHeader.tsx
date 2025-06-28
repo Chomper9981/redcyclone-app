@@ -25,13 +25,13 @@ const ProfileOtherUserHeader: React.FC<ProfileOtherUserHeaderProps> = ({
         />
       </div>
 
-      {/* Quốc Hồn và nút Tạo Quốc Hồn */}
+      {/* Quốc Hồn và nút Tôi luyện Quốc Hồn */}
       <div className="flex items-center space-x-4 mx-4">
         <div className="text-center">
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Quốc Hồn của bạn:</p>
           <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{currentUserQuocHon}</p>
         </div>
-        <Button variant="default" className="whitespace-nowrap">Tạo Quốc Hồn</Button>
+        <Button variant="default" className="whitespace-nowrap">Tôi luyện Quốc Hồn</Button>
       </div>
 
       {/* Post, Notification Buttons and User Avatar */}

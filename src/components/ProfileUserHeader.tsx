@@ -23,7 +23,7 @@ const ProfileUserHeader: React.FC<ProfileUserHeaderProps> = ({ userName = "User"
       {/* Action Buttons */}
       <div className="flex items-center space-x-3 mx-4">
         <Button variant="outline" className="whitespace-nowrap">Sửa thông tin cá nhân</Button>
-        <Button className="whitespace-nowrap">Tạo Quốc Hồn</Button>
+        <Button className="whitespace-nowrap">Tôi luyện Quốc Hồn</Button>
       </div>
 
       {/* Post, Notification Buttons and User Avatar */}
