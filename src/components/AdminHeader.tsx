@@ -1,7 +1,8 @@
 import React from 'react';
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Search } from 'lucide-react';
+import { Bell, Plus, Search } from 'lucide-react'; // Import Bell and Plus icons
+import { Button } from "@/components/ui/button"; // Ensure Button is imported
 
 interface AdminHeaderProps {
   userName?: string;
@@ -16,7 +17,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvata
         <img
           src="https://via.placeholder.com/40x40?text=Logo" // Placeholder logo URL
           alt="Company Logo"
-          className="w-10 h-10" // Removed rounded-full
+          className="w-10 h-10"
         />
       </div>
 
@@ -30,11 +31,17 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvata
         />
       </div>
 
-      {/* User Info (Name and Avatar) */}
+      {/* Post, Notification Buttons and User Avatar */}
       <div className="flex items-center space-x-3">
-        <span className="text-gray-800 dark:text-gray-200 font-medium hidden sm:block">
-          {userName}
-        </span>
+        {/* Post Button */}
+        <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
+          <Plus size={20} />
+        </Button>
+        {/* Notification Button */}
+        <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
+          <Bell size={20} />
+        </Button>
+        {/* User Avatar */}
         <Avatar className="h-9 w-9">
           <AvatarImage src={userAvatarUrl} alt={userName} />
           <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">

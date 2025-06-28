@@ -23,12 +23,6 @@ const AdminDashboard: React.FC = () => {
       setSubTab={setSubTab}
       subTabOptions={adminSubTabOptions}
     >
-      {/* Hàng: Đổi mật khẩu */}
-      <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Cài đặt tài khoản</h3>
-        <Button>Đổi mật khẩu</Button>
-      </section>
-
       {/* Hàng: Quản lí accounts */}
       <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Quản lý</h3>
