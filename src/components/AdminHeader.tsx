@@ -18,7 +18,6 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvata
           alt="Company Logo"
           className="w-10 h-10 rounded-full" // Adjust styling as needed
         />
-        <span className="text-xl font-semibold text-gray-900 dark:text-gray-100 hidden md:block">Admin Panel</span>
       </div>
 
       {/* Search Bar */}
