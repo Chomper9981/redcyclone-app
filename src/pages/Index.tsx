@@ -2,6 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Index = () => {
+  const navigationLinks = [
+    { to: "/login", label: "Đi đến Đăng nhập", variant: "default" },
+    { to: "/admin", label: "Đi đến Admin", variant: "secondary" },
+    { to: "/menu-guest", label: "Đi đến Giao diện Khách", variant: "outline" },
+    { to: "/menu-user", label: "Đi đến Giao diện Người dùng", variant: "default" },
+    { to: "/profile-user", label: "Đi đến Hồ sơ Người dùng", variant: "ghost" },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
       <div className="text-center">
@@ -9,22 +17,14 @@ const Index = () => {
         <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
           Bắt đầu xây dựng dự án tuyệt vời của bạn tại đây!
         </p>
-        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
-          <Link to="/login">
-            <Button size="lg" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Đăng nhập</Button>
-          </Link>
-          <Link to="/admin">
-            <Button size="lg" variant="secondary" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Admin</Button>
-          </Link>
-          <Link to="/menu-guest">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Khách</Button>
-          </Link>
-          <Link to="/menu-user">
-            <Button size="lg" variant="default" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Giao diện Người dùng</Button>
-          </Link>
-          <Link to="/profile-user">
-            <Button size="lg" variant="ghost" className="w-full sm:w-auto px-8 py-4 text-lg">Đi đến Hồ sơ Người dùng</Button>
-          </Link>
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center flex-wrap">
+          {navigationLinks.map((link, index) => (
+            <Link to={link.to} key={index}>
+              <Button size="lg" variant={link.variant} className="w-full sm:w-auto px-8 py-4 text-lg">
+                {link.label}
+              </Button>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
