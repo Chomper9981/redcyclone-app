@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ThumbsUp, MessageSquare } from 'lucide-react'; // Import icons
+import { Button } from "@/components/ui/button"; // Import Button
+import { toast } from 'sonner'; // Import toast
 
 interface Post {
   id: string;
@@ -15,6 +17,7 @@ interface Post {
   createdAt: string; // ISO 8601 string
   likes: number;
   commentsCount: number;
+  quocHon?: number; // Thêm thuộc tính quocHon
 }
 
 const mockPost: Post = {
@@ -32,10 +35,11 @@ const mockPost: Post = {
   Việc sử dụng Hooks giúp code của bạn trở nên gọn gàng, dễ đọc và dễ kiểm thử hơn. Nó cũng khuyến khích việc viết các functional component, vốn thường đơn giản hơn các class component.`,
   authorName: 'Người dùng Dyad',
   authorAvatarUrl: 'https://github.com/shadcn.png',
-  mainCategory: 'dev-guide',
+  mainCategory: 'dev-guide', // Thay đổi để kiểm tra các nút: 'game' hoặc 'dev-guide'
   createdAt: '2023-10-27T10:00:00Z',
   likes: 125,
   commentsCount: 34,
+  quocHon: 100, // Thêm giá trị Quốc Hồn giả định (thử 0 hoặc > 0)
 };
 
 const ViewPost: React.FC = () => {
@@ -53,6 +57,18 @@ const ViewPost: React.FC = () => {
     hour: '2-digit',
     minute: '2-digit',
   });
+
+  const handleGuigamQuocHon = () => {
+    toast.info("Chức năng Gửi gắm Quốc Hồn sẽ được phát triển sau.");
+  };
+
+  const handleTaiGame = () => {
+    toast.info("Chức năng Tải Game sẽ được phát triển sau.");
+  };
+
+  const handleMuaGame = () => {
+    toast.info("Chức năng Mua Game sẽ được phát triển sau.");
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
@@ -84,8 +100,8 @@ const ViewPost: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Phần tương tác: Likes và Comments */}
-        <Card className="mb-6 p-4 flex items-center justify-around bg-white dark:bg-gray-800 shadow-sm rounded-lg">
+        {/* Phần tương tác: Likes, Comments và các nút hành động */}
+        <Card className="mb-6 p-4 flex flex-col sm:flex-row items-center justify-around bg-white dark:bg-gray-800 shadow-sm rounded-lg space-y-4 sm:space-y-0 sm:space-x-4">
           <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
             <ThumbsUp size={20} />
             <span>{mockPost.likes} Lượt thích</span>
@@ -93,6 +109,17 @@ const ViewPost: React.FC = () => {
           <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
             <MessageSquare size={20} />
             <span>{mockPost.commentsCount} Bình luận</span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2 mt-4 sm:mt-0">
+            <Button variant="outline" onClick={handleGuigamQuocHon}>Gửi gắm Quốc Hồn</Button>
+            {mockPost.mainCategory === 'game' && (
+              <>
+                <Button onClick={handleTaiGame}>Tải Game</Button>
+                {mockPost.quocHon && mockPost.quocHon > 0 && (
+                  <Button variant="secondary" onClick={handleMuaGame}>Mua Game</Button>
+                )}
+              </>
+            )}
           </div>
         </Card>
 
