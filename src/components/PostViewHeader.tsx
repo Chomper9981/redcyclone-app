@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, ArrowLeft } from 'lucide-react';
+import { Bell, ArrowLeft, Plus } from 'lucide-react'; // Import Plus icon
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,10 @@ const PostViewHeader: React.FC<PostViewHeaderProps> = ({ userName = "User", user
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
+  };
+
+  const handleCreatePost = () => {
+    navigate('/create-post'); // Navigate to the create post page
   };
 
   return (
@@ -33,8 +37,12 @@ const PostViewHeader: React.FC<PostViewHeaderProps> = ({ userName = "User", user
       {/* Spacer để đẩy các nút sang phải */}
       <div className="flex-grow mx-4"></div>
 
-      {/* Notification Button and User Avatar */}
+      {/* Post, Notification Buttons and User Avatar */}
       <div className="flex items-center space-x-3">
+        {/* Post Button */}
+        <Button variant="ghost" size="icon" className="rounded-full w-9 h-9" onClick={handleCreatePost}>
+          <Plus size={20} />
+        </Button>
         {/* Notification Button */}
         <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
           <Bell size={20} />
