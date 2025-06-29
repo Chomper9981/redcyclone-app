@@ -31,7 +31,10 @@ const AdminDashboard: React.FC = () => {
           <Link to="/admin/account-manager">
             <Button variant="secondary">Quản lí Accounts</Button>
           </Link>
-          <Link to="/admin/log-manager"> {/* Thêm Link đến trang quản lý log */}
+          <Link to="/admin/account-deletion-queue"> {/* Nút mới */}
+            <Button variant="secondary">Hàng chờ xóa tài khoản</Button>
+          </Link>
+          <Link to="/admin/log-manager">
             <Button variant="secondary">Quản lí Log</Button>
           </Link>
         </div>
