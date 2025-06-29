@@ -29,36 +29,29 @@ const CreatePost: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [mainCategory, setMainCategory] = useState('news');
-  const [subCategory, setSubCategory] = useState('latest');
+  const [postType, setPostType] = useState('news'); // Đổi tên từ mainCategory thành postType
   const [loading, setLoading] = useState(false);
 
   const [showRestoreDialog, setShowRestoreDialog] = useState(false);
   const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] = useState(false);
-  const draftDataRef = useRef<{ title: string; content: string; mainCategory: string; subCategory: string } | null>(null);
+  const draftDataRef = useRef<{ title: string; content: string; postType: string } | null>(null); // Cập nhật draftDataRef
 
-  const mainCategoryOptions = [
+  const postTypeOptions = [ // Đổi tên từ mainCategoryOptions thành postTypeOptions
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
     { value: "dev-guide", label: "Dev Guide" },
     { value: "game", label: "Game" },
   ];
 
-  const subCategoryOptions = [
-    { value: "latest", label: "Mới nhất" },
-    { value: "hot", label: "Hot nhất" },
-    { value: "following", label: "Đang theo dõi" },
-  ];
-
   // Effect để lưu nháp vào localStorage
   useEffect(() => {
     const timer = setTimeout(() => {
-      const draft = { title, content, mainCategory, subCategory };
+      const draft = { title, content, postType }; // Cập nhật draft
       localStorage.setItem(LOCAL_STORAGE_DRAFT_KEY, JSON.stringify(draft));
     }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [title, content, mainCategory, subCategory]);
+  }, [title, content, postType]); // Cập nhật dependencies
 
   // Effect để kiểm tra và hiển thị hộp thoại khôi phục khi tải trang
   useEffect(() => {
@@ -82,8 +75,7 @@ const CreatePost: React.FC = () => {
     if (draftDataRef.current) {
       setTitle(draftDataRef.current.title);
       setContent(draftDataRef.current.content);
-      setMainCategory(draftDataRef.current.mainCategory);
-      setSubCategory(draftDataRef.current.subCategory);
+      setPostType(draftDataRef.current.postType); // Cập nhật setPostType
       localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
       toast.success("Bài viết nháp đã được khôi phục!");
     }
@@ -112,13 +104,12 @@ const CreatePost: React.FC = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     toast.success("Bài viết của bạn đã được gửi đi để duyệt!");
-    console.log({ title, content, mainCategory, subCategory });
+    console.log({ title, content, postType }); // Cập nhật console.log
 
     // Reset form and clear draft after successful submission
     setTitle('');
     setContent('');
-    setMainCategory('news');
-    setSubCategory('latest');
+    setPostType('news'); // Cập nhật setPostType
     localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY); // Clear draft
     setLoading(false);
   };
@@ -160,13 +151,13 @@ const CreatePost: React.FC = () => {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="main-category">Chuyên mục chính</Label>
-                <Select value={mainCategory} onValueChange={setMainCategory}>
-                  <SelectTrigger id="main-category">
-                    <SelectValue placeholder="Chọn chuyên mục chính" />
+                <Label htmlFor="post-type">Loại bài viết</Label> {/* Đổi tên label */}
+                <Select value={postType} onValueChange={setPostType}> {/* Cập nhật value và onValueChange */}
+                  <SelectTrigger id="post-type"> {/* Cập nhật id */}
+                    <SelectValue placeholder="Chọn loại bài viết" /> {/* Cập nhật placeholder */}
                   </SelectTrigger>
                   <SelectContent>
-                    {mainCategoryOptions.map(option => (
+                    {postTypeOptions.map(option => ( // Cập nhật options
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -175,7 +166,8 @@ const CreatePost: React.FC = () => {
                 </Select>
               </div>
 
-              <div className="grid gap-2">
+              {/* Loại bỏ phần Chuyên mục phụ */}
+              {/* <div className="grid gap-2">
                 <Label htmlFor="sub-category">Chuyên mục phụ</Label>
                 <Select value={subCategory} onValueChange={setSubCategory}>
                   <SelectTrigger id="sub-category">
@@ -189,7 +181,7 @@ const CreatePost: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
 
               <Button type="submit" className="w-full py-6 text-lg" disabled={loading}>
                 {loading ? "Đang gửi..." : "Gửi bài viết"}
