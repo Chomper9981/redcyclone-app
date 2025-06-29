@@ -10,7 +10,8 @@ const ProfileOtherUser: React.FC = () => {
     bio: "Đây là một đoạn giới thiệu ngắn về người dùng khác.",
     avatarUrl: "https://avatars.githubusercontent.com/u/9919?s=200&v=4",
     followers: 5432,
-    likes: 9876
+    likes: 9876,
+    isAdmin: false // Thêm thuộc tính isAdmin
   };
 
   // Dữ liệu người dùng hiện tại (để hiển thị trên header)

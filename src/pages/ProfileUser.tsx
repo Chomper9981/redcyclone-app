@@ -11,7 +11,8 @@ const ProfileUser: React.FC = () => {
     avatarUrl: "https://github.com/shadcn.png",
     followers: 1234,
     likes: 5678,
-    quocHon: 0 // Placeholder
+    quocHon: 0, // Placeholder
+    isAdmin: true // Thêm thuộc tính isAdmin
   };
 
   const profileMainTabOptions = [

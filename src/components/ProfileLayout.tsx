@@ -8,6 +8,7 @@ import PaginationComponent from '@/components/PaginationComponent';
 import FollowingList from '@/components/FollowingList';
 import NotificationList from '@/components/NotificationList';
 import { toast } from 'sonner'; // Import toast from sonner
+import { Badge } from "@/components/ui/badge"; // Import Badge
 
 interface ProfileLayoutProps {
   header: React.ReactNode;
@@ -18,6 +19,7 @@ interface ProfileLayoutProps {
     followers: number;
     likes: number;
     quocHon?: number; // Only for current user's profile
+    isAdmin?: boolean; // Add isAdmin property
   };
   isCurrentUserProfile: boolean;
   mainTabOptions: { value: string; label: string }[];
@@ -64,6 +66,9 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
               <div>
                 <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
                   {profileData.name}
+                  {profileData.isAdmin && (
+                    <Badge variant="secondary" className="ml-2 bg-blue-500 text-white">Admin</Badge>
+                  )}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Số người theo dõi: {profileData.followers}
