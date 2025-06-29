@@ -202,12 +202,13 @@ const CreatePost: React.FC = () => {
               {postType === 'game' && (
                 <>
                   <div className="grid gap-2">
-                    <Label htmlFor="game-file">Tải lên File Game (.zip)</Label>
+                    <Label htmlFor="game-file">Game (.zip) <span className="text-red-500">*</span></Label>
                     <Input
                       id="game-file"
                       type="file"
                       accept=".zip"
                       onChange={(e) => setGameFile(e.target.files ? e.target.files[0] : null)}
+                      required // Đánh dấu là bắt buộc
                     />
                     <p className="text-sm text-red-500 dark:text-red-400 mt-1">
                       Chỉ chấp nhận file .zip. Kích thước tối đa 500MB.
