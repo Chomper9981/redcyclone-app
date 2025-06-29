@@ -9,7 +9,8 @@ const Index = () => {
     { to: "/menu-user", label: "Đi đến Giao diện Người dùng", variant: "default" },
     { to: "/profile-user", label: "Đi đến Hồ sơ Người dùng", variant: "ghost" },
     { to: "/profile-other-user", label: "Đi đến Hồ sơ Người dùng Khác", variant: "destructive" },
-    { to: "/profile-other-user-for-guest", label: "Hồ sơ Người dùng Khác (Khách)", variant: "link" }, // Thêm liên kết mới
+    { to: "/profile-other-user-for-guest", label: "Hồ sơ Người dùng Khác (Khách)", variant: "link" },
+    { to: "/edit-profile", label: "Đi đến Sửa Hồ sơ", variant: "default" }, // Thêm liên kết mới
   ];
 
   return (

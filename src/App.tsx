@@ -12,7 +12,8 @@ import ProfileUser from "./pages/ProfileUser";
 import ProfileOtherUser from "./pages/ProfileOtherUser";
 import ProfileOtherUserForGuest from "./pages/ProfileOtherUserForGuest";
 import AccountManagerAdmin from "./pages/AccountManagerAdmin";
-import LogManagerAdmin from "./pages/LogManagerAdmin"; // Import LogManagerAdmin
+import LogManagerAdmin from "./pages/LogManagerAdmin";
+import EditProfile from "./pages/EditProfile"; // Import EditProfile
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -35,7 +36,8 @@ const App = () => (
           <Route path="/profile-other-user" element={<ProfileOtherUser />} />
           <Route path="/profile-other-user-for-guest" element={<ProfileOtherUserForGuest />} />
           <Route path="/admin/account-manager" element={<AccountManagerAdmin />} />
-          <Route path="/admin/log-manager" element={<LogManagerAdmin />} /> {/* Thêm route mới cho Log Manager */}
+          <Route path="/admin/log-manager" element={<LogManagerAdmin />} />
+          <Route path="/edit-profile" element={<EditProfile />} /> {/* Thêm route mới cho EditProfile */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Plus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom'; // Import Link
 
 interface ProfileUserHeaderProps {
   userName?: string;
@@ -16,13 +17,15 @@ const ProfileUserHeader: React.FC<ProfileUserHeaderProps> = ({ userName = "User"
         <img
           src="https://via.placeholder.com/40x40?text=Logo" // Placeholder logo URL
           alt="Company Logo"
-          className="w-10 h-10" // Removed rounded-full
+          className="w-10 h-10"
         />
       </div>
 
       {/* Action Buttons */}
       <div className="flex items-center space-x-3 mx-4">
-        <Button variant="outline" className="whitespace-nowrap">Sửa thông tin cá nhân</Button>
+        <Link to="/edit-profile"> {/* Thay đổi Button thành Link */}
+          <Button variant="outline" className="whitespace-nowrap">Sửa thông tin cá nhân</Button>
+        </Link>
         <Button className="whitespace-nowrap">Tôi luyện Quốc Hồn</Button>
       </div>
 
