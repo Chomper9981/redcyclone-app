@@ -21,25 +21,20 @@ interface Post {
 }
 
 const mockPost: Post = {
-  id: 'post-1',
-  title: 'Hướng dẫn cơ bản về React Hooks',
-  content: `React Hooks là một tính năng mới được giới thiệu trong React 16.8, cho phép bạn sử dụng state và các tính năng khác của React mà không cần viết class. Hooks giải quyết một số vấn đề mà các thành phần dựa trên class gặp phải, như khó tái sử dụng logic stateful giữa các component, và sự phức tạp của 'this' trong JavaScript.
+  id: 'post-game-1',
+  title: 'Khám phá thế giới mở của Cyberpunk 2077',
+  content: `Cyberpunk 2077 là một trò chơi nhập vai hành động được phát triển bởi CD Projekt Red. Lấy bối cảnh tại Night City, một siêu đô thị ám ảnh bởi quyền lực, sự hào nhoáng và những sửa đổi cơ thể, người chơi sẽ vào vai V, một lính đánh thuê ngoài vòng pháp luật đang tìm kiếm một cấy ghép độc nhất vô nhị là chìa khóa cho sự bất tử.
 
-  Các Hook phổ biến bao gồm:
-  - useState: Cho phép bạn thêm state vào các functional component.
-  - useEffect: Cho phép bạn thực hiện các side effect trong functional component, tương tự như componentDidMount, componentDidUpdate và componentWillUnmount.
-  - useContext: Cho phép bạn truy cập context mà không cần render prop.
-  - useReducer: Một giải pháp thay thế cho useState cho các logic state phức tạp hơn.
-  - useCallback, useMemo: Để tối ưu hóa hiệu suất.
+  Trò chơi nổi bật với thế giới mở rộng lớn, cốt truyện sâu sắc với nhiều lựa chọn ảnh hưởng đến kết cục, và hệ thống chiến đấu đa dạng cho phép người chơi tùy chỉnh phong cách chơi của mình. Từ những con hẻm tối tăm đến những tòa nhà chọc trời lấp lánh, Night City luôn ẩn chứa những bí mật và thử thách mới.
 
-  Việc sử dụng Hooks giúp code của bạn trở nên gọn gàng, dễ đọc và dễ kiểm thử hơn. Nó cũng khuyến khích việc viết các functional component, vốn thường đơn giản hơn các class component.`,
-  authorName: 'Người dùng Dyad',
-  authorAvatarUrl: 'https://github.com/shadcn.png',
-  mainCategory: 'dev-guide', // Thay đổi để kiểm tra các nút: 'game' hoặc 'dev-guide'
-  createdAt: '2023-10-27T10:00:00Z',
-  likes: 125,
-  commentsCount: 34,
-  quocHon: 100, // Thêm giá trị Quốc Hồn giả định (thử 0 hoặc > 0)
+  Hãy chuẩn bị cho một cuộc phiêu lưu đầy kịch tính và khám phá những gì Night City thực sự mang lại!`,
+  authorName: 'Game Master',
+  authorAvatarUrl: 'https://avatars.githubusercontent.com/u/10000000?v=4', // Avatar khác cho ví dụ
+  mainCategory: 'game', // Đặt chủ đề là 'game'
+  createdAt: '2023-11-01T15:30:00Z',
+  likes: 567,
+  commentsCount: 89,
+  quocHon: 250, // Đặt giá trị Quốc Hồn lớn hơn 0
 };
 
 const ViewPost: React.FC = () => {
