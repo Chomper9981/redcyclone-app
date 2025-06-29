@@ -11,7 +11,8 @@ const Index = () => {
     { to: "/profile-other-user", label: "Đi đến Hồ sơ Người dùng Khác", variant: "destructive" },
     { to: "/profile-other-user-for-guest", label: "Hồ sơ Người dùng Khác (Khách)", variant: "link" },
     { to: "/edit-profile", label: "Đi đến Sửa Hồ sơ", variant: "default" },
-    { to: "/create-post", label: "Đi đến Đăng bài viết", variant: "default" }, // Thêm liên kết mới
+    { to: "/create-post", label: "Đi đến Đăng bài viết", variant: "default" },
+    { to: "/view-post", label: "Đi đến Xem bài viết", variant: "default" }, // Thêm liên kết mới
   ];
 
   return (
