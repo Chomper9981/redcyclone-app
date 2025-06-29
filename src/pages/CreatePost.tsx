@@ -30,13 +30,14 @@ const CreatePost: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postType, setPostType] = useState('news');
-  const [gameFile, setGameFile] = useState<File | null>(null); // State mới cho file game
+  const [gameFile, setGameFile] = useState<File | null>(null);
+  const [quocHon, setQuocHon] = useState<string>(''); // State mới cho Quốc Hồn, lưu dưới dạng string để dễ xử lý input
   const [loading, setLoading] = useState(false);
 
   const [showRestoreDialog, setShowRestoreDialog] = useState(false);
   const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] = useState(false);
-  // Cập nhật draftDataRef để bao gồm postType, không lưu file trực tiếp vào draft
-  const draftDataRef = useRef<{ title: string; content: string; postType: string } | null>(null);
+  // Cập nhật draftDataRef để bao gồm postType và quocHon
+  const draftDataRef = useRef<{ title: string; content: string; postType: string; quocHon: string } | null>(null);
 
   const postTypeOptions = [
     { value: "news", label: "Tin tức" },
@@ -48,12 +49,12 @@ const CreatePost: React.FC = () => {
   // Effect để lưu nháp vào localStorage
   useEffect(() => {
     const timer = setTimeout(() => {
-      const draft = { title, content, postType };
+      const draft = { title, content, postType, quocHon }; // Thêm quocHon vào draft
       localStorage.setItem(LOCAL_STORAGE_DRAFT_KEY, JSON.stringify(draft));
     }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [title, content, postType]);
+  }, [title, content, postType, quocHon]); // Thêm quocHon vào dependencies
 
   // Effect để kiểm tra và hiển thị hộp thoại khôi phục khi tải trang
   useEffect(() => {
@@ -77,6 +78,7 @@ const CreatePost: React.FC = () => {
       setTitle(draftDataRef.current.title);
       setContent(draftDataRef.current.content);
       setPostType(draftDataRef.current.postType);
+      setQuocHon(draftDataRef.current.quocHon || ''); // Khôi phục quocHon
       setGameFile(null); // Xóa file đã chọn khi khôi phục nháp
       localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
       toast.success("Bài viết nháp đã được khôi phục!");
@@ -97,14 +99,26 @@ const CreatePost: React.FC = () => {
     e.preventDefault();
     setLoading(true);
 
+    let isValid = true;
+
     if (!title.trim() || !content.trim()) {
       toast.error("Tiêu đề và nội dung bài viết không được để trống.");
-      setLoading(false);
-      return;
+      isValid = false;
     }
 
-    if (postType === 'game' && !gameFile) {
-      toast.error("Vui lòng tải lên file game (.zip) khi chọn loại bài viết là 'Game'.");
+    if (postType === 'game') {
+      if (!gameFile) {
+        toast.error("Vui lòng tải lên file game (.zip) khi chọn loại bài viết là 'Game'.");
+        isValid = false;
+      }
+      const parsedQuocHon = parseInt(quocHon, 10);
+      if (isNaN(parsedQuocHon) || parsedQuocHon < 0) {
+        toast.error("Giá trị Quốc Hồn phải là một số nguyên không âm.");
+        isValid = false;
+      }
+    }
+
+    if (!isValid) {
       setLoading(false);
       return;
     }
@@ -113,13 +127,14 @@ const CreatePost: React.FC = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     toast.success("Bài viết của bạn đã được gửi đi để duyệt!");
-    console.log({ title, content, postType, gameFileName: gameFile?.name });
+    console.log({ title, content, postType, gameFileName: gameFile?.name, quocHon: parseInt(quocHon, 10) }); // Log quocHon
 
     // Reset form and clear draft after successful submission
     setTitle('');
     setContent('');
     setPostType('news');
     setGameFile(null); // Reset file sau khi gửi
+    setQuocHon(''); // Reset quocHon
     localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
     setLoading(false);
   };
@@ -177,18 +192,37 @@ const CreatePost: React.FC = () => {
               </div>
 
               {postType === 'game' && (
-                <div className="grid gap-2">
-                  <Label htmlFor="game-file">Tải lên File Game (.zip)</Label>
-                  <Input
-                    id="game-file"
-                    type="file"
-                    accept=".zip"
-                    onChange={(e) => setGameFile(e.target.files ? e.target.files[0] : null)}
-                  />
-                  <p className="text-sm text-red-500 dark:text-red-400 mt-1">
-                    Chỉ chấp nhận file .zip. Kích thước tối đa 500MB.
-                  </p>
-                </div>
+                <>
+                  <div className="grid gap-2">
+                    <Label htmlFor="game-file">Tải lên File Game (.zip)</Label>
+                    <Input
+                      id="game-file"
+                      type="file"
+                      accept=".zip"
+                      onChange={(e) => setGameFile(e.target.files ? e.target.files[0] : null)}
+                    />
+                    <p className="text-sm text-red-500 dark:text-red-400 mt-1">
+                      Chỉ chấp nhận file .zip. Kích thước tối đa 500MB.
+                    </p>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="quoc-hon">Quốc Hồn</Label>
+                    <Input
+                      id="quoc-hon"
+                      type="number" // Đặt type là number
+                      placeholder="Nhập giá trị Quốc Hồn"
+                      value={quocHon}
+                      onChange={(e) => {
+                        // Chỉ cho phép nhập số nguyên không âm
+                        const value = e.target.value;
+                        if (value === '' || /^\d+$/.test(value)) {
+                          setQuocHon(value);
+                        }
+                      }}
+                      min="0" // Đảm bảo giá trị không âm
+                    />
+                  </div>
+                </>
               )}
 
               <Button type="submit" className="w-full py-6 text-lg" disabled={loading}>
