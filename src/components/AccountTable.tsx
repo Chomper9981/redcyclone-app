@@ -49,13 +49,21 @@ const AccountTable: React.FC = () => {
           const newStatus = !account.isActive;
           toast.info(`${newStatus ? "Kích hoạt" : "Tạm dừng"} tài khoản ID: ${accountId}`);
 
-          // Nếu tài khoản bị tạm dừng, ghi log
+          const adminNickname = "Admin"; // Tên admin giả định
+
           if (!newStatus) {
-            const adminNickname = "Admin"; // Tên admin giả định
+            // Nếu tài khoản bị tạm dừng, ghi log
             addGlobalLog(
               account.nickname, // Tên người dùng bị tạm dừng
               "Tạm dừng tài khoản",
               `${adminNickname} đã tạm dừng tài khoản này.`
+            );
+          } else {
+            // Nếu tài khoản được kích hoạt, ghi log
+            addGlobalLog(
+              account.nickname, // Tên người dùng được kích hoạt
+              "Kích hoạt tài khoản",
+              `${adminNickname} đã kích hoạt tài khoản này.`
             );
           }
           return { ...account, isActive: newStatus };
