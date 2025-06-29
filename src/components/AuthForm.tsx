@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
@@ -16,12 +16,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
   const [isLogin, setIsLogin] = useState(initialIsLogin);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true); // State for "Remember me" checkbox
+  const [username, setUsername] = useState(''); // New state for username
+  const [nickname, setNickname] = useState(''); // New state for nickname
+  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // Update isLogin state when initialIsLogin prop changes
   useEffect(() => {
     setIsLogin(initialIsLogin);
+    // Reset fields when switching between login/register
+    setEmail('');
+    setPassword('');
+    setUsername('');
+    setNickname('');
   }, [initialIsLogin]);
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -34,12 +40,28 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
         if (error) throw error;
         toast.success("Đăng nhập thành công!");
       } else {
-        const { error } = await supabase.auth.signUp({ email, password });
+        // Validation for registration fields
+        if (email.trim() === '' || password.trim() === '' || nickname.trim() === '') {
+          toast.error("Email, Mật khẩu và Tên hiển thị không được để trống.");
+          setLoading(false);
+          return;
+        }
+
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              username: username.trim() === '' ? null : username, // Pass null if username is empty
+              nickname: nickname,
+            },
+          },
+        });
         if (error) throw error;
         toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.");
       }
       if (onAuthSuccess) {
-        onAuthSuccess(); // Call callback on success
+        onAuthSuccess();
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -49,11 +71,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
   };
 
   return (
-    <Card className="w-full max-w-md border-none shadow-none"> {/* Remove card styling as it's now inside a dialog */}
-      <CardContent className="p-0"> {/* Remove padding as dialog content handles it */}
+    <Card className="w-full max-w-md border-none shadow-none">
+      <CardContent className="p-0">
         <form onSubmit={handleAuth} className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
             <Input
               id="email"
               type="email"
@@ -64,7 +86,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Mật khẩu</Label>
+            <Label htmlFor="password">Mật khẩu <span className="text-red-500">*</span></Label>
             <Input
               id="password"
               type="password"
@@ -73,7 +95,32 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {isLogin && ( // Only show "Remember me" for login
+          {!isLogin && ( // Only show these fields for registration
+            <>
+              <div className="grid gap-2">
+                <Label htmlFor="username">Tên tài khoản</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Tên tài khoản của bạn"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="nickname">Tên hiển thị <span className="text-red-500">*</span></Label>
+                <Input
+                  id="nickname"
+                  type="text"
+                  placeholder="Tên hiển thị của bạn"
+                  required // HTML5 required attribute
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                />
+              </div>
+            </>
+          )}
+          {isLogin && (
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="remember-me"
