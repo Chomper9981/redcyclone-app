@@ -7,6 +7,7 @@ import ContentGridPlaceholder from '@/components/ContentGridPlaceholder';
 import PaginationComponent from '@/components/PaginationComponent';
 import FollowingList from '@/components/FollowingList';
 import NotificationList from '@/components/NotificationList';
+import { toast } from 'sonner'; // Import toast from sonner
 
 interface ProfileLayoutProps {
   header: React.ReactNode;
@@ -39,6 +40,10 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
 }) => {
   const [mainTab, setMainTab] = useState("news");
   const [subTab, setSubTab] = useState("latest");
+
+  const handleGuestAction = () => {
+    toast.info("Cần đăng nhập để dùng chức năng này");
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
@@ -75,8 +80,8 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
               </div>
             ) : (
               <div className="flex space-x-2">
-                <Button variant="default">Theo dõi</Button>
-                <Button variant="outline">Gửi gắm Quốc Hồn</Button>
+                <Button variant="default" onClick={handleGuestAction}>Theo dõi</Button>
+                <Button variant="outline" onClick={handleGuestAction}>Gửi gắm Quốc Hồn</Button>
               </div>
             )}
           </CardContent>
