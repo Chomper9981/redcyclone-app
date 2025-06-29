@@ -128,6 +128,9 @@ const CreatePost: React.FC = () => {
               <Button type="submit" className="w-full py-6 text-lg" disabled={loading}>
                 {loading ? "Đang gửi..." : "Gửi bài viết"}
               </Button>
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
+                Hãy dùng # để giúp mọi người tìm được chủ đề này dễ hơn.
+              </p>
             </form>
           </CardContent>
         </Card>
