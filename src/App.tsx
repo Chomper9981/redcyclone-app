@@ -16,6 +16,7 @@ import LogManagerAdmin from "./pages/LogManagerAdmin";
 import EditProfile from "./pages/EditProfile";
 import EditBasicInfo from "./pages/EditBasicInfo";
 import AccountDeletionQueueAdmin from "./pages/AccountDeletionQueueAdmin";
+import CreatePost from "./pages/CreatePost"; // Import CreatePost
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import { SessionProvider } from "./contexts/SessionContext";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/admin/account-deletion-queue" element={<AccountDeletionQueueAdmin />} />
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/edit-profile/basic-info" element={<EditBasicInfo />} />
+            <Route path="/create-post" element={<CreatePost />} /> {/* Thêm route mới */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
