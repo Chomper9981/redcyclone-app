@@ -54,19 +54,6 @@ const AccountTable: React.FC = () => {
     );
   };
 
-  const handleToggleAdminStatus = (accountId: string) => {
-    setAccounts(prevAccounts =>
-      prevAccounts.map(account => {
-        if (account.id === accountId) {
-          const newAdminStatus = !account.isAdmin;
-          toast.info(`${newAdminStatus ? "Cấp quyền Admin cho" : "Hủy quyền Admin của"} tài khoản ID: ${accountId}`);
-          return { ...account, isAdmin: newAdminStatus };
-        }
-        return account;
-      })
-    );
-  };
-
   const handleDeleteAccount = (accountId: string) => {
     toast.error(`Xóa tài khoản ID: ${accountId}`);
     // Logic thực tế để xóa tài khoản
@@ -83,7 +70,6 @@ const AccountTable: React.FC = () => {
             <TableHead>Nickname</TableHead>
             <TableHead>Xác nhận CCCD</TableHead>
             <TableHead>Trạng thái</TableHead>
-            <TableHead>Admin</TableHead> {/* Thêm cột Admin */}
             <TableHead className="text-right">Hành động</TableHead>
           </TableRow>
         </TableHeader>
@@ -103,11 +89,6 @@ const AccountTable: React.FC = () => {
                   {account.isActive ? "Đang hoạt động" : "Tạm dừng"}
                 </Badge>
               </TableCell>
-              <TableCell>
-                <Badge variant={account.isAdmin ? "default" : "outline"}>
-                  {account.isAdmin ? "Có" : "Không"}
-                </Badge>
-              </TableCell>
               <TableCell className="text-right space-x-2 flex justify-end">
                 <Button variant="outline" size="sm" onClick={() => handleLogReport(account.id)}>
                   Log Report
@@ -121,13 +102,6 @@ const AccountTable: React.FC = () => {
                   onClick={() => handleToggleAccountStatus(account.id)}
                 >
                   {account.isActive ? "Tạm dừng" : "Kích hoạt"}
-                </Button>
-                <Button
-                  variant={account.isAdmin ? "secondary" : "default"}
-                  size="sm"
-                  onClick={() => handleToggleAdminStatus(account.id)}
-                >
-                  {account.isAdmin ? "Hủy Admin" : "Cấp Admin"}
                 </Button>
                 <Button variant="destructive" size="sm" onClick={() => handleDeleteAccount(account.id)}>
                   Xóa
