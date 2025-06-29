@@ -58,9 +58,10 @@ const LogTable: React.FC = () => {
         let valA: string | number = '';
         let valB: string | number = '';
 
+        // Khi so sánh timestamp, đảm bảo chúng được coi là UTC
         if (sortColumn === 'timestamp') {
-          valA = new Date(a.timestamp).getTime();
-          valB = new Date(b.timestamp).getTime();
+          valA = new Date(a.timestamp + 'Z').getTime();
+          valB = new Date(b.timestamp + 'Z').getTime();
         } else {
           valA = a[sortColumn] as string;
           valB = b[sortColumn] as string;
@@ -143,15 +144,35 @@ const LogTable: React.FC = () => {
           </TableHeader>
           <TableBody>
             {filteredAndSortedLogs.length > 0 ? (
-              filteredAndSortedLogs.map((log) => (
-                <TableRow key={log.id}>
-                  <TableCell>{new Date(log.timestamp).toLocaleDateString('vi-VN')}</TableCell>
-                  <TableCell>{new Date(log.timestamp).toLocaleTimeString('vi-VN')}</TableCell>
-                  <TableCell>{log.username}</TableCell>
-                  <TableCell>{log.action}</TableCell>
-                  <TableCell>{truncateText(log.details, 80)}</TableCell>
-                </TableRow>
-              ))
+              filteredAndSortedLogs.map((log) => {
+                // Tạo đối tượng Date từ chuỗi timestamp (coi là UTC)
+                const date = new Date(log.timestamp + 'Z');
+
+                // Định dạng ngày và giờ theo múi giờ UTC+7 (Asia/Ho_Chi_Minh)
+                const displayDate = date.toLocaleDateString('vi-VN', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  timeZone: 'Asia/Ho_Chi_Minh',
+                });
+                const displayTime = date.toLocaleTimeString('vi-VN', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: false, // Sử dụng định dạng 24 giờ
+                  timeZone: 'Asia/Ho_Chi_Minh',
+                });
+
+                return (
+                  <TableRow key={log.id}>
+                    <TableCell>{displayDate}</TableCell>
+                    <TableCell>{displayTime}</TableCell>
+                    <TableCell>{log.username}</TableCell>
+                    <TableCell>{log.action}</TableCell>
+                    <TableCell>{truncateText(log.details, 80)}</TableCell>
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell colSpan={5} className="h-24 text-center">
