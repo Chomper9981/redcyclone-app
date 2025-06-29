@@ -95,20 +95,11 @@ const ViewPost: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Phần tương tác: Likes và Comments */}
+        {/* Phần tương tác: Các nút hành động, Likes và Comments */}
         <Card className="mb-6 p-4 bg-white dark:bg-gray-800 shadow-sm rounded-lg">
           <CardContent className="p-0 flex flex-col space-y-4">
-            <div className="flex items-center justify-around text-gray-700 dark:text-gray-300">
-              <div className="flex items-center space-x-2">
-                <ThumbsUp size={20} />
-                <span>{mockPost.likes} Lượt thích</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <MessageSquare size={20} />
-                <span>{mockPost.commentsCount} Bình luận</span>
-              </div>
-            </div>
-            <div className="flex flex-wrap justify-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+            {/* Các nút hành động */}
+            <div className="flex flex-wrap justify-center gap-2">
               <Button variant="outline" onClick={handleGuigamQuocHon}>Gửi gắm Quốc Hồn</Button>
               {mockPost.mainCategory === 'game' && (
                 <>
@@ -118,6 +109,17 @@ const ViewPost: React.FC = () => {
                   )}
                 </>
               )}
+            </div>
+            {/* Likes và Comments */}
+            <div className="flex items-center justify-around text-gray-700 dark:text-gray-300 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center space-x-2">
+                <ThumbsUp size={20} />
+                <span>{mockPost.likes} Lượt thích</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <MessageSquare size={20} />
+                <span>{mockPost.commentsCount} Bình luận</span>
+              </div>
             </div>
           </CardContent>
         </Card>
