@@ -29,14 +29,16 @@ const CreatePost: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [postType, setPostType] = useState('news'); // Đổi tên từ mainCategory thành postType
+  const [postType, setPostType] = useState('news');
+  const [gameFile, setGameFile] = useState<File | null>(null); // State mới cho file game
   const [loading, setLoading] = useState(false);
 
   const [showRestoreDialog, setShowRestoreDialog] = useState(false);
   const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] = useState(false);
-  const draftDataRef = useRef<{ title: string; content: string; postType: string } | null>(null); // Cập nhật draftDataRef
+  // Cập nhật draftDataRef để bao gồm postType, không lưu file trực tiếp vào draft
+  const draftDataRef = useRef<{ title: string; content: string; postType: string } | null>(null);
 
-  const postTypeOptions = [ // Đổi tên từ mainCategoryOptions thành postTypeOptions
+  const postTypeOptions = [
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
     { value: "dev-guide", label: "Dev Guide" },
@@ -46,12 +48,12 @@ const CreatePost: React.FC = () => {
   // Effect để lưu nháp vào localStorage
   useEffect(() => {
     const timer = setTimeout(() => {
-      const draft = { title, content, postType }; // Cập nhật draft
+      const draft = { title, content, postType };
       localStorage.setItem(LOCAL_STORAGE_DRAFT_KEY, JSON.stringify(draft));
     }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [title, content, postType]); // Cập nhật dependencies
+  }, [title, content, postType]);
 
   // Effect để kiểm tra và hiển thị hộp thoại khôi phục khi tải trang
   useEffect(() => {
@@ -59,14 +61,13 @@ const CreatePost: React.FC = () => {
     if (savedDraft) {
       try {
         const parsedDraft = JSON.parse(savedDraft);
-        // Kiểm tra xem nháp có dữ liệu hợp lệ không
         if (parsedDraft.title || parsedDraft.content) {
           draftDataRef.current = parsedDraft;
           setShowRestoreDialog(true);
         }
       } catch (e) {
         console.error("Failed to parse draft from localStorage", e);
-        localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY); // Xóa nháp lỗi
+        localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
       }
     }
   }, []);
@@ -75,16 +76,18 @@ const CreatePost: React.FC = () => {
     if (draftDataRef.current) {
       setTitle(draftDataRef.current.title);
       setContent(draftDataRef.current.content);
-      setPostType(draftDataRef.current.postType); // Cập nhật setPostType
+      setPostType(draftDataRef.current.postType);
+      setGameFile(null); // Xóa file đã chọn khi khôi phục nháp
       localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
       toast.success("Bài viết nháp đã được khôi phục!");
     }
     setShowRestoreDialog(false);
-    setShowConfirmDeleteDialog(false); // Đảm bảo cả hai dialog đều đóng
+    setShowConfirmDeleteDialog(false);
   };
 
   const handleDeleteDraft = () => {
     localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
+    setGameFile(null); // Xóa file đã chọn khi xóa nháp
     toast.info("Bài viết nháp đã bị xóa.");
     setShowRestoreDialog(false);
     setShowConfirmDeleteDialog(false);
@@ -100,17 +103,24 @@ const CreatePost: React.FC = () => {
       return;
     }
 
+    if (postType === 'game' && !gameFile) {
+      toast.error("Vui lòng tải lên file game (.zip) khi chọn loại bài viết là 'Game'.");
+      setLoading(false);
+      return;
+    }
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     toast.success("Bài viết của bạn đã được gửi đi để duyệt!");
-    console.log({ title, content, postType }); // Cập nhật console.log
+    console.log({ title, content, postType, gameFileName: gameFile?.name });
 
     // Reset form and clear draft after successful submission
     setTitle('');
     setContent('');
-    setPostType('news'); // Cập nhật setPostType
-    localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY); // Clear draft
+    setPostType('news');
+    setGameFile(null); // Reset file sau khi gửi
+    localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
     setLoading(false);
   };
 
@@ -151,13 +161,13 @@ const CreatePost: React.FC = () => {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="post-type">Loại bài viết</Label> {/* Đổi tên label */}
-                <Select value={postType} onValueChange={setPostType}> {/* Cập nhật value và onValueChange */}
-                  <SelectTrigger id="post-type"> {/* Cập nhật id */}
-                    <SelectValue placeholder="Chọn loại bài viết" /> {/* Cập nhật placeholder */}
+                <Label htmlFor="post-type">Loại bài viết</Label>
+                <Select value={postType} onValueChange={setPostType}>
+                  <SelectTrigger id="post-type">
+                    <SelectValue placeholder="Chọn loại bài viết" />
                   </SelectTrigger>
                   <SelectContent>
-                    {postTypeOptions.map(option => ( // Cập nhật options
+                    {postTypeOptions.map(option => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -166,22 +176,20 @@ const CreatePost: React.FC = () => {
                 </Select>
               </div>
 
-              {/* Loại bỏ phần Chuyên mục phụ */}
-              {/* <div className="grid gap-2">
-                <Label htmlFor="sub-category">Chuyên mục phụ</Label>
-                <Select value={subCategory} onValueChange={setSubCategory}>
-                  <SelectTrigger id="sub-category">
-                    <SelectValue placeholder="Chọn chuyên mục phụ" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {subCategoryOptions.map(option => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div> */}
+              {postType === 'game' && (
+                <div className="grid gap-2">
+                  <Label htmlFor="game-file">Tải lên File Game (.zip)</Label>
+                  <Input
+                    id="game-file"
+                    type="file"
+                    accept=".zip"
+                    onChange={(e) => setGameFile(e.target.files ? e.target.files[0] : null)}
+                  />
+                  <p className="text-sm text-red-500 dark:text-red-400 mt-1">
+                    Chỉ chấp nhận file .zip. Kích thước tối đa 500MB.
+                  </p>
+                </div>
+              )}
 
               <Button type="submit" className="w-full py-6 text-lg" disabled={loading}>
                 {loading ? "Đang gửi..." : "Gửi bài viết"}
@@ -206,7 +214,7 @@ const CreatePost: React.FC = () => {
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => {
               setShowRestoreDialog(false);
-              setShowConfirmDeleteDialog(true); // Chuyển sang dialog xác nhận xóa
+              setShowConfirmDeleteDialog(true);
             }}>Không</AlertDialogCancel>
             <AlertDialogAction onClick={handleRestoreDraft}>Có</AlertDialogAction>
           </AlertDialogFooter>
@@ -225,7 +233,7 @@ const CreatePost: React.FC = () => {
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => {
               setShowConfirmDeleteDialog(false);
-              setShowRestoreDialog(true); // Quay lại dialog khôi phục
+              setShowRestoreDialog(true);
             }}>Không</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteDraft}>Có</AlertDialogAction>
           </AlertDialogFooter>
