@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import AdminHeader from '@/components/AdminHeader';
 import { Button } from "@/components/ui/button";
-import ContentLayout from '@/components/ContentLayout'; // Import ContentLayout
+import ContentLayout from '@/components/ContentLayout';
+import { Link } from 'react-router-dom'; // Import Link
 
 const AdminDashboard: React.FC = () => {
   const [mainTab, setMainTab] = useState("news");
@@ -26,7 +27,9 @@ const AdminDashboard: React.FC = () => {
       {/* Hàng: Quản lí accounts */}
       <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Quản lý</h3>
-        <Button variant="secondary">Quản lí Accounts</Button>
+        <Link to="/admin/account-manager"> {/* Thêm Link đến trang quản lý tài khoản */}
+          <Button variant="secondary">Quản lí Accounts</Button>
+        </Link>
       </section>
     </ContentLayout>
   );
