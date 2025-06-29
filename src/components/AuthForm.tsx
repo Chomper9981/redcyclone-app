@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,11 +6,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
-const AuthForm: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
+interface AuthFormProps {
+  initialIsLogin?: boolean;
+  onAuthSuccess?: () => void;
+}
+
+const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSuccess }) => {
+  const [isLogin, setIsLogin] = useState(initialIsLogin);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Update isLogin state when initialIsLogin prop changes
+  useEffect(() => {
+    setIsLogin(initialIsLogin);
+  }, [initialIsLogin]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +36,9 @@ const AuthForm: React.FC = () => {
         if (error) throw error;
         toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.");
       }
+      if (onAuthSuccess) {
+        onAuthSuccess(); // Call callback on success
+      }
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -34,14 +47,8 @@ const AuthForm: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-2xl">{isLogin ? "Đăng nhập" : "Đăng ký"}</CardTitle>
-        <CardDescription>
-          {isLogin ? "Nhập email và mật khẩu của bạn để đăng nhập." : "Tạo tài khoản mới."}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <Card className="w-full max-w-md border-none shadow-none"> {/* Remove card styling as it's now inside a dialog */}
+      <CardContent className="p-0"> {/* Remove padding as dialog content handles it */}
         <form onSubmit={handleAuth} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
