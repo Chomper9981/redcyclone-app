@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CreatePostHeader from '@/components/CreatePostHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
+const LOCAL_STORAGE_DRAFT_KEY = 'create_post_draft';
+const DEBOUNCE_DELAY = 1000; // 1 second
 
 const CreatePost: React.FC = () => {
   const currentUser = {
@@ -20,6 +33,10 @@ const CreatePost: React.FC = () => {
   const [subCategory, setSubCategory] = useState('latest');
   const [loading, setLoading] = useState(false);
 
+  const [showRestoreDialog, setShowRestoreDialog] = useState(false);
+  const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] = useState(false);
+  const draftDataRef = useRef<{ title: string; content: string; mainCategory: string; subCategory: string } | null>(null);
+
   const mainCategoryOptions = [
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
@@ -32,6 +49,54 @@ const CreatePost: React.FC = () => {
     { value: "hot", label: "Hot nhất" },
     { value: "following", label: "Đang theo dõi" },
   ];
+
+  // Effect để lưu nháp vào localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const draft = { title, content, mainCategory, subCategory };
+      localStorage.setItem(LOCAL_STORAGE_DRAFT_KEY, JSON.stringify(draft));
+    }, DEBOUNCE_DELAY);
+
+    return () => clearTimeout(timer);
+  }, [title, content, mainCategory, subCategory]);
+
+  // Effect để kiểm tra và hiển thị hộp thoại khôi phục khi tải trang
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(LOCAL_STORAGE_DRAFT_KEY);
+    if (savedDraft) {
+      try {
+        const parsedDraft = JSON.parse(savedDraft);
+        // Kiểm tra xem nháp có dữ liệu hợp lệ không
+        if (parsedDraft.title || parsedDraft.content) {
+          draftDataRef.current = parsedDraft;
+          setShowRestoreDialog(true);
+        }
+      } catch (e) {
+        console.error("Failed to parse draft from localStorage", e);
+        localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY); // Xóa nháp lỗi
+      }
+    }
+  }, []);
+
+  const handleRestoreDraft = () => {
+    if (draftDataRef.current) {
+      setTitle(draftDataRef.current.title);
+      setContent(draftDataRef.current.content);
+      setMainCategory(draftDataRef.current.mainCategory);
+      setSubCategory(draftDataRef.current.subCategory);
+      localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
+      toast.success("Bài viết nháp đã được khôi phục!");
+    }
+    setShowRestoreDialog(false);
+    setShowConfirmDeleteDialog(false); // Đảm bảo cả hai dialog đều đóng
+  };
+
+  const handleDeleteDraft = () => {
+    localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY);
+    toast.info("Bài viết nháp đã bị xóa.");
+    setShowRestoreDialog(false);
+    setShowConfirmDeleteDialog(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,11 +114,12 @@ const CreatePost: React.FC = () => {
     toast.success("Bài viết của bạn đã được gửi đi để duyệt!");
     console.log({ title, content, mainCategory, subCategory });
 
-    // Reset form
+    // Reset form and clear draft after successful submission
     setTitle('');
     setContent('');
     setMainCategory('news');
     setSubCategory('latest');
+    localStorage.removeItem(LOCAL_STORAGE_DRAFT_KEY); // Clear draft
     setLoading(false);
   };
 
@@ -135,6 +201,44 @@ const CreatePost: React.FC = () => {
           </CardContent>
         </Card>
       </main>
+
+      {/* Dialog để hỏi khôi phục bài viết */}
+      <AlertDialog open={showRestoreDialog} onOpenChange={setShowRestoreDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Khôi phục bài viết nháp?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Chúng tôi tìm thấy một bài viết nháp chưa hoàn thành. Bạn có muốn khôi phục nó không?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setShowRestoreDialog(false);
+              setShowConfirmDeleteDialog(true); // Chuyển sang dialog xác nhận xóa
+            }}>Không</AlertDialogCancel>
+            <AlertDialogAction onClick={handleRestoreDraft}>Có</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Dialog để xác nhận xóa bài viết nháp */}
+      <AlertDialog open={showConfirmDeleteDialog} onOpenChange={setShowConfirmDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Bạn chắc chắn xóa bài viết cũ?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Hành động này sẽ xóa vĩnh viễn bài viết nháp đã lưu. Bạn không thể hoàn tác.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setShowConfirmDeleteDialog(false);
+              setShowRestoreDialog(true); // Quay lại dialog khôi phục
+            }}>Không</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteDraft}>Có</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
