@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Import CardHeader, CardTitle
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ interface ProfileLayoutProps {
     likes: number;
     quocHon?: number; // Only for current user's profile
     isAdmin?: boolean; // Add isAdmin property
+    bio?: string; // Thêm thuộc tính bio
   };
   isCurrentUserProfile: boolean;
   mainTabOptions: { value: string; label: string }[];
@@ -89,6 +90,20 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
                 <Button variant="outline" onClick={handleGuestAction}>Gửi gắm Quốc Hồn</Button>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Hàng mới: Bio của người dùng */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Giới thiệu</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-700 dark:text-gray-300">
+              {profileData.bio && profileData.bio.trim() !== ""
+                ? profileData.bio
+                : "Người dùng chưa có giới thiệu về bản thân"}
+            </p>
           </CardContent>
         </Card>
 

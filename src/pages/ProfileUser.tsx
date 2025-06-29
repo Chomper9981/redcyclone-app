@@ -7,7 +7,7 @@ const ProfileUser: React.FC = () => {
   const currentUser = {
     name: "Người dùng Dyad",
     email: "user@example.com",
-    bio: "Đây là một đoạn giới thiệu ngắn về người dùng. Họ yêu thích công nghệ và phát triển web.",
+    bio: "Đây là một đoạn giới thiệu ngắn về người dùng. Họ yêu thích công nghệ và phát triển web.", // Thêm bio
     avatarUrl: "https://github.com/shadcn.png",
     followers: 1234,
     likes: 5678,
