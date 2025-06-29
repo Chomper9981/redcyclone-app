@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -16,17 +16,20 @@ interface Account {
   accountName: string;
   nickname: string;
   cccdVerified: boolean;
+  isActive: boolean; // Thêm trạng thái hoạt động
 }
 
-const mockAccounts: Account[] = [
-  { id: '1', accountName: 'user_001', nickname: 'Alice', cccdVerified: true },
-  { id: '2', accountName: 'user_002', nickname: 'BobTheBuilder', cccdVerified: false },
-  { id: '3', accountName: 'user_003', nickname: 'CharlieX', cccdVerified: true },
-  { id: '4', accountName: 'user_004', nickname: 'DianaPrince', cccdVerified: false },
-  { id: '5', accountName: 'user_005', nickname: 'EveOnline', cccdVerified: true },
+const initialMockAccounts: Account[] = [
+  { id: '1', accountName: 'user_001', nickname: 'Alice', cccdVerified: true, isActive: true },
+  { id: '2', accountName: 'user_002', nickname: 'BobTheBuilder', cccdVerified: false, isActive: true },
+  { id: '3', accountName: 'user_003', nickname: 'CharlieX', cccdVerified: true, isActive: false },
+  { id: '4', accountName: 'user_004', nickname: 'DianaPrince', cccdVerified: false, isActive: true },
+  { id: '5', accountName: 'user_005', nickname: 'EveOnline', cccdVerified: true, isActive: false },
 ];
 
 const AccountTable: React.FC = () => {
+  const [accounts, setAccounts] = useState<Account[]>(initialMockAccounts);
+
   const handleLogReport = (accountId: string) => {
     toast.info(`Xem Log Report cho tài khoản ID: ${accountId}`);
     // Logic thực tế để hiển thị log report
@@ -37,14 +40,23 @@ const AccountTable: React.FC = () => {
     // Logic thực tế để hiển thị log hoạt động
   };
 
-  const handleSuspendAccount = (accountId: string) => {
-    toast.warning(`Tạm dừng hoạt động tài khoản ID: ${accountId}`);
-    // Logic thực tế để tạm dừng tài khoản
+  const handleToggleAccountStatus = (accountId: string) => {
+    setAccounts(prevAccounts =>
+      prevAccounts.map(account => {
+        if (account.id === accountId) {
+          const newStatus = !account.isActive;
+          toast.info(`${newStatus ? "Kích hoạt" : "Tạm dừng"} tài khoản ID: ${accountId}`);
+          return { ...account, isActive: newStatus };
+        }
+        return account;
+      })
+    );
   };
 
   const handleDeleteAccount = (accountId: string) => {
     toast.error(`Xóa tài khoản ID: ${accountId}`);
     // Logic thực tế để xóa tài khoản
+    setAccounts(prevAccounts => prevAccounts.filter(account => account.id !== accountId));
   };
 
   return (
@@ -56,11 +68,12 @@ const AccountTable: React.FC = () => {
             <TableHead>Tên tài khoản</TableHead>
             <TableHead>Nickname</TableHead>
             <TableHead>Xác nhận CCCD</TableHead>
+            <TableHead>Trạng thái</TableHead> {/* Thêm cột trạng thái */}
             <TableHead className="text-right">Hành động</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mockAccounts.map((account) => (
+          {accounts.map((account) => (
             <TableRow key={account.id}>
               <TableCell className="font-medium">{account.id}</TableCell>
               <TableCell>{account.accountName}</TableCell>
@@ -70,6 +83,11 @@ const AccountTable: React.FC = () => {
                   {account.cccdVerified ? "Đã xác nhận" : "Chưa xác nhận"}
                 </Badge>
               </TableCell>
+              <TableCell>
+                <Badge variant={account.isActive ? "default" : "secondary"}>
+                  {account.isActive ? "Đang hoạt động" : "Tạm dừng"}
+                </Badge>
+              </TableCell>
               <TableCell className="text-right space-x-2 flex justify-end">
                 <Button variant="outline" size="sm" onClick={() => handleLogReport(account.id)}>
                   Log Report
@@ -77,8 +95,12 @@ const AccountTable: React.FC = () => {
                 <Button variant="outline" size="sm" onClick={() => handleActivityLog(account.id)}>
                   Log Hoạt động
                 </Button>
-                <Button variant="secondary" size="sm" onClick={() => handleSuspendAccount(account.id)}>
-                  Tạm dừng
+                <Button
+                  variant={account.isActive ? "secondary" : "default"}
+                  size="sm"
+                  onClick={() => handleToggleAccountStatus(account.id)}
+                >
+                  {account.isActive ? "Tạm dừng" : "Kích hoạt"}
                 </Button>
                 <Button variant="destructive" size="sm" onClick={() => handleDeleteAccount(account.id)}>
                   Xóa
