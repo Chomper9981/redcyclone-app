@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
@@ -15,6 +16,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
   const [isLogin, setIsLogin] = useState(initialIsLogin);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(true); // State for "Remember me" checkbox
   const [loading, setLoading] = useState(false);
 
   // Update isLogin state when initialIsLogin prop changes
@@ -71,6 +73,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {isLogin && ( // Only show "Remember me" for login
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="remember-me"
+                checked={rememberMe}
+                onCheckedChange={(checked) => setRememberMe(!!checked)}
+              />
+              <Label htmlFor="remember-me">Nhớ đăng nhập</Label>
+            </div>
+          )}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Đang xử lý..." : (isLogin ? "Đăng nhập" : "Đăng ký")}
           </Button>
