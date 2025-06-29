@@ -1,6 +1,7 @@
 import React from 'react';
 import AdminHeader from '@/components/AdminHeader';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LogTable from '@/components/LogTable'; // Import LogTable
 
 const LogManagerAdmin: React.FC = () => {
   const currentUser = {
@@ -19,10 +20,7 @@ const LogManagerAdmin: React.FC = () => {
             <CardTitle>Danh sách Log hệ thống</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-700 dark:text-gray-300">
-              Đây là trang quản lý log. Nội dung chi tiết sẽ được thêm vào sau.
-            </p>
-            {/* Placeholder for log table or content */}
+            <LogTable /> {/* Render LogTable component */}
           </CardContent>
         </Card>
       </main>
