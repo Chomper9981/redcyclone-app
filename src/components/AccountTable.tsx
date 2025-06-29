@@ -74,9 +74,19 @@ const AccountTable: React.FC = () => {
   };
 
   const handleDeleteAccount = (accountId: string) => {
-    toast.error(`Xóa tài khoản ID: ${accountId}`);
-    // Logic thực tế để xóa tài khoản
-    setAccounts(prevAccounts => prevAccounts.filter(account => account.id !== accountId));
+    const accountToDelete = accounts.find(account => account.id === accountId);
+    if (accountToDelete) {
+      toast.error(`Xóa tài khoản ID: ${accountId}`);
+      // Logic thực tế để xóa tài khoản
+      setAccounts(prevAccounts => prevAccounts.filter(account => account.id !== accountId));
+
+      const adminNickname = "Admin"; // Tên admin giả định
+      addGlobalLog(
+        accountToDelete.nickname, // Tên người dùng bị xóa
+        "Xóa tài khoản",
+        `${adminNickname} đã xóa tài khoản này.`
+      );
+    }
   };
 
   return (
