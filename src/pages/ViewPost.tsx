@@ -12,7 +12,6 @@ interface Post {
   authorName: string;
   authorAvatarUrl: string;
   mainCategory: string;
-  subCategory: string;
   createdAt: string; // ISO 8601 string
   likes: number;
   commentsCount: number;
@@ -34,7 +33,6 @@ const mockPost: Post = {
   authorName: 'Người dùng Dyad',
   authorAvatarUrl: 'https://github.com/shadcn.png',
   mainCategory: 'dev-guide',
-  subCategory: 'latest',
   createdAt: '2023-10-27T10:00:00Z',
   likes: 125,
   commentsCount: 34,
@@ -78,7 +76,6 @@ const ViewPost: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2 mt-2">
               <Badge variant="secondary">{mockPost.mainCategory}</Badge>
-              <Badge variant="outline">{mockPost.subCategory}</Badge>
             </div>
           </CardHeader>
           <CardContent className="prose dark:prose-invert max-w-none">
