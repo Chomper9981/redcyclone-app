@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } => "@/components/ui/sonner";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -15,10 +15,10 @@ import AccountManagerAdmin from "./pages/AccountManagerAdmin";
 import LogManagerAdmin from "./pages/LogManagerAdmin";
 import EditProfile from "./pages/EditProfile";
 import EditBasicInfo from "./pages/EditBasicInfo";
-import AccountDeletionQueueAdmin from "./pages/AccountDeletionQueueAdmin"; // Import component mới
+import AccountDeletionQueueAdmin from "./pages/AccountDeletionQueueAdmin";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
-import { SessionProvider } from "./contexts/SessionContext"; // Import SessionProvider
+import { SessionProvider } from "./contexts/SessionContext";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +27,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <SessionProvider> {/* Bọc toàn bộ ứng dụng với SessionProvider */}
+      <SessionProvider>
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
@@ -41,10 +41,9 @@ const App = () => (
             <Route path="/profile-other-user-for-guest" element={<ProfileOtherUserForGuest />} />
             <Route path="/admin/account-manager" element={<AccountManagerAdmin />} />
             <Route path="/admin/log-manager" element={<LogManagerAdmin />} />
-            <Route path="/admin/account-deletion-queue" element={<AccountDeletionQueueAdmin />} /> {/* Route mới */}
+            <Route path="/admin/account-deletion-queue" element={<AccountDeletionQueueAdmin />} />
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/edit-profile/basic-info" element={<EditBasicInfo />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
