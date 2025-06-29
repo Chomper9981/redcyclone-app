@@ -101,20 +101,28 @@ const CreatePost: React.FC = () => {
 
     let isValid = true;
 
+    // Validate inputs
     if (!title.trim() || !content.trim()) {
       toast.error("Tiêu đề và nội dung bài viết không được để trống.");
       isValid = false;
     }
 
+    let finalQuocHonValue = 0; // Mặc định giá trị Quốc Hồn là 0
     if (postType === 'game') {
       if (!gameFile) {
         toast.error("Vui lòng tải lên file game (.zip) khi chọn loại bài viết là 'Game'.");
         isValid = false;
       }
+
       const parsedQuocHon = parseInt(quocHon, 10);
-      if (isNaN(parsedQuocHon) || parsedQuocHon < 0) {
+      if (isNaN(parsedQuocHon)) {
+        // Nếu trống hoặc không phải số, giá trị cuối cùng vẫn là 0, không báo lỗi
+        finalQuocHonValue = 0;
+      } else if (parsedQuocHon < 0) {
         toast.error("Giá trị Quốc Hồn phải là một số nguyên không âm.");
         isValid = false;
+      } else {
+        finalQuocHonValue = parsedQuocHon;
       }
     }
 
@@ -127,7 +135,7 @@ const CreatePost: React.FC = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     toast.success("Bài viết của bạn đã được gửi đi để duyệt!");
-    console.log({ title, content, postType, gameFileName: gameFile?.name, quocHon: parseInt(quocHon, 10) }); // Log quocHon
+    console.log({ title, content, postType, gameFileName: gameFile?.name, quocHon: finalQuocHonValue }); // Log quocHon
 
     // Reset form and clear draft after successful submission
     setTitle('');
