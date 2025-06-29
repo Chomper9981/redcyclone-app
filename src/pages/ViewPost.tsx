@@ -95,27 +95,31 @@ const ViewPost: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Phần tương tác: Likes, Comments và các nút hành động */}
-        <Card className="mb-6 p-4 flex flex-col sm:flex-row items-center justify-around bg-white dark:bg-gray-800 shadow-sm rounded-lg space-y-4 sm:space-y-0 sm:space-x-4">
-          <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-            <ThumbsUp size={20} />
-            <span>{mockPost.likes} Lượt thích</span>
-          </div>
-          <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-            <MessageSquare size={20} />
-            <span>{mockPost.commentsCount} Bình luận</span>
-          </div>
-          <div className="flex flex-wrap justify-center gap-2 mt-4 sm:mt-0">
-            <Button variant="outline" onClick={handleGuigamQuocHon}>Gửi gắm Quốc Hồn</Button>
-            {mockPost.mainCategory === 'game' && (
-              <>
-                <Button onClick={handleTaiGame}>Tải Game</Button>
-                {mockPost.quocHon && mockPost.quocHon > 0 && (
-                  <Button variant="secondary" onClick={handleMuaGame}>Mua Game</Button>
-                )}
-              </>
-            )}
-          </div>
+        {/* Phần tương tác: Likes và Comments */}
+        <Card className="mb-6 p-4 bg-white dark:bg-gray-800 shadow-sm rounded-lg">
+          <CardContent className="p-0 flex flex-col space-y-4">
+            <div className="flex items-center justify-around text-gray-700 dark:text-gray-300">
+              <div className="flex items-center space-x-2">
+                <ThumbsUp size={20} />
+                <span>{mockPost.likes} Lượt thích</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <MessageSquare size={20} />
+                <span>{mockPost.commentsCount} Bình luận</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <Button variant="outline" onClick={handleGuigamQuocHon}>Gửi gắm Quốc Hồn</Button>
+              {mockPost.mainCategory === 'game' && (
+                <>
+                  <Button onClick={handleTaiGame}>Tải Game</Button>
+                  {mockPost.quocHon && mockPost.quocHon > 0 && (
+                    <Button variant="secondary" onClick={handleMuaGame}>Mua Game</Button>
+                  )}
+                </>
+              )}
+            </div>
+          </CardContent>
         </Card>
 
         {/* Phần bình luận (placeholder) */}
