@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from 'sonner';
+import { addGlobalLog } from '@/utils/globalLogs'; // Import addGlobalLog
 
 interface Account {
   id: string;
@@ -47,6 +48,16 @@ const AccountTable: React.FC = () => {
         if (account.id === accountId) {
           const newStatus = !account.isActive;
           toast.info(`${newStatus ? "Kích hoạt" : "Tạm dừng"} tài khoản ID: ${accountId}`);
+
+          // Nếu tài khoản bị tạm dừng, ghi log
+          if (!newStatus) {
+            const adminNickname = "Admin"; // Tên admin giả định
+            addGlobalLog(
+              account.nickname, // Tên người dùng bị tạm dừng
+              "Tạm dừng tài khoản",
+              `${adminNickname} đã tạm dừng tài khoản này.`
+            );
+          }
           return { ...account, isActive: newStatus };
         }
         return account;

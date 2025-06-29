@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -18,41 +18,27 @@ import {
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface LogEntry {
-  id: string;
-  timestamp: string; // ISO 8601 string: YYYY-MM-DDTHH:MM:SS
-  username: string;
-  action: string;
-  details: string;
-}
-
-const mockLogs: LogEntry[] = [
-  { id: '1', timestamp: '2023-10-26T10:30:00', username: 'Alice', action: 'Đăng nhập', details: 'Đăng nhập thành công từ IP 192.168.1.100' },
-  { id: '2', timestamp: '2023-10-26T11:00:00', username: 'Bob', action: 'Cập nhật hồ sơ', details: 'Cập nhật ảnh đại diện và bio.' },
-  { id: '3', timestamp: '2023-10-25T15:45:00', username: 'Charlie', action: 'Đăng bài', details: 'Đăng bài viết mới: "Hướng dẫn chơi game X".' },
-  { id: '4', timestamp: '2023-10-27T09:15:00', username: 'Alice', action: 'Đăng xuất', details: 'Đăng xuất khỏi hệ thống.' },
-  { id: '5', timestamp: '2023-10-26T14:00:00', username: 'Diana', action: 'Xóa tài khoản', details: 'Yêu cầu xóa tài khoản đã được xử lý.' },
-  { id: '6', timestamp: '2023-10-27T10:00:00', username: 'Bob', action: 'Đăng nhập', details: 'Đăng nhập thất bại: sai mật khẩu.' },
-  { id: '7', timestamp: '2023-10-25T16:00:00', username: 'Alice', action: 'Cập nhật hồ sơ', details: 'Thay đổi nickname từ "Alice" thành "AliceWonder".' },
-  { id: '8', timestamp: '2023-10-27T11:30:00', username: 'Charlie', action: 'Đăng bài', details: 'Đăng bài viết mới: "Mẹo tối ưu hiệu suất game Y".' },
-  { id: '9', timestamp: '2023-10-24T08:00:00', username: 'Admin', action: 'Quản lý tài khoản', details: 'Tạm dừng tài khoản của người dùng Z do vi phạm chính sách. Chi tiết vi phạm: spam nội dung quảng cáo không phù hợp trên diễn đàn công cộng và các hành vi gây rối khác.' },
-  { id: '10', timestamp: '2023-10-27T12:00:00', username: 'Admin', action: 'Quản lý log', details: 'Truy cập trang quản lý log hệ thống.' },
-];
+import { getGlobalLogs, LogEntry } from '@/utils/globalLogs'; // Import getGlobalLogs và LogEntry
 
 const LogTable: React.FC = () => {
+  const [logs, setLogs] = useState<LogEntry[]>([]); // Sử dụng state để quản lý logs
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAction, setSelectedAction] = useState<string>('');
   const [sortColumn, setSortColumn] = useState<keyof LogEntry | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-  const uniqueActions = useMemo(() => {
-    const actions = Array.from(new Set(mockLogs.map(log => log.action)));
-    return ['Tất cả', ...actions];
+  // Lấy log khi component được mount
+  useEffect(() => {
+    setLogs(getGlobalLogs());
   }, []);
 
+  const uniqueActions = useMemo(() => {
+    const actions = Array.from(new Set(logs.map(log => log.action)));
+    return ['Tất cả', ...actions];
+  }, [logs]); // Phụ thuộc vào logs để cập nhật khi có log mới
+
   const filteredAndSortedLogs = useMemo(() => {
-    let currentLogs = [...mockLogs];
+    let currentLogs = [...logs];
 
     // Filter by username
     if (searchTerm) {
@@ -87,7 +73,7 @@ const LogTable: React.FC = () => {
     }
 
     return currentLogs;
-  }, [searchTerm, selectedAction, sortColumn, sortDirection]);
+  }, [searchTerm, selectedAction, sortColumn, sortDirection, logs]);
 
   const handleSort = (column: keyof LogEntry) => {
     if (sortColumn === column) {
