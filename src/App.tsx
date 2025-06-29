@@ -14,9 +14,10 @@ import ProfileOtherUserForGuest from "./pages/ProfileOtherUserForGuest";
 import AccountManagerAdmin from "./pages/AccountManagerAdmin";
 import LogManagerAdmin from "./pages/LogManagerAdmin";
 import EditProfile from "./pages/EditProfile";
-import EditBasicInfo from "./pages/EditBasicInfo"; // Import EditBasicInfo
+import EditBasicInfo from "./pages/EditBasicInfo";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import { SessionProvider } from "./contexts/SessionContext"; // Import SessionProvider
 
 const queryClient = new QueryClient();
 
@@ -25,25 +26,27 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/menu-guest" element={<MenuGuest />} />
-          <Route path="/menu-user" element={<MenuUser />} />
-          <Route path="/profile-user" element={<ProfileUser />} />
-          <Route path="/profile-other-user" element={<ProfileOtherUser />} />
-          <Route path="/profile-other-user-for-guest" element={<ProfileOtherUserForGuest />} />
-          <Route path="/admin/account-manager" element={<AccountManagerAdmin />} />
-          <Route path="/admin/log-manager" element={<LogManagerAdmin />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/edit-profile/basic-info" element={<EditBasicInfo />} /> {/* Thêm route mới cho EditBasicInfo */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <SessionProvider> {/* Bọc toàn bộ ứng dụng với SessionProvider */}
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/menu-guest" element={<MenuGuest />} />
+            <Route path="/menu-user" element={<MenuUser />} />
+            <Route path="/profile-user" element={<ProfileUser />} />
+            <Route path="/profile-other-user" element={<ProfileOtherUser />} />
+            <Route path="/profile-other-user-for-guest" element={<ProfileOtherUserForGuest />} />
+            <Route path="/admin/account-manager" element={<AccountManagerAdmin />} />
+            <Route path="/admin/log-manager" element={<LogManagerAdmin />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/edit-profile/basic-info" element={<EditBasicInfo />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </SessionProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
