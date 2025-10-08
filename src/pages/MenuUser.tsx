@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import UserHeader from '@/components/UserHeader';
-import ContentLayout from '@/components/ContentLayout'; // Import ContentLayout
+import AdminHeader from '@/components/AdminHeader'; // Import AdminHeader
+import ContentLayout from '@/components/ContentLayout';
+import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
-const MenuUser: React.FC = () => {
-  const [mainTab, setMainTab] = useState("news");
+interface MenuUserProps {
+  userProfile: UserProfile;
+  isAdmin: boolean;
+  userId: string;
+}
+
+const MenuUser: React.FC<MenuUserProps> = ({ userProfile, isAdmin, userId }) => {
+  const [mainTab, setMainTab] = useState("game");
   const [subTab, setSubTab] = useState("latest");
-
-  // Dữ liệu người dùng giả định, trong ứng dụng thực tế sẽ lấy từ ngữ cảnh xác thực
-  const currentUser = {
-    name: "Người dùng",
-    avatarUrl: "https://github.com/shadcn.png"
-  };
 
   const userSubTabOptions = [
     { value: "latest", label: "Mới nhất" },
@@ -18,15 +20,37 @@ const MenuUser: React.FC = () => {
     { value: "following", label: "Đang theo dõi" },
   ];
 
+  const userMainTabOptions = [
+    { value: "game", label: "Game" },
+    { value: "news", label: "Tin tức" },
+    { value: "guide", label: "Game Guide" },
+    { value: "dev-share", label: "Dev Share" },
+  ];
+
   return (
     <ContentLayout
-      headerComponent={<UserHeader userName={currentUser.name} userAvatarUrl={currentUser.avatarUrl} />}
+      headerComponent={
+        isAdmin ? (
+          <AdminHeader
+            userName={userProfile.nickname || userProfile.username || "Admin"}
+            userAvatarUrl={userProfile.avatar_url || undefined}
+            userId={userId} // Truyền userId
+          />
+        ) : (
+          <UserHeader
+            userName={userProfile.nickname || userProfile.username || "Người dùng"}
+            userAvatarUrl={userProfile.avatar_url || undefined}
+            userId={userId} // Truyền userId
+          />
+        )
+      }
       title="Khám phá nội dung"
       mainTab={mainTab}
       setMainTab={setMainTab}
       subTab={subTab}
       setSubTab={setSubTab}
       subTabOptions={userSubTabOptions}
+      mainTabOptions={userMainTabOptions}
     >
       {/* Phần nội dung độc đáo của MenuUser (nếu có) sẽ được thêm vào đây sau */}
     </ContentLayout>

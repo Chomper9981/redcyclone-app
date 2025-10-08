@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 interface AuthFormProps {
   initialIsLogin?: boolean;
-  onAuthSuccess?: () => void;
+  onAuthSuccess?: (userId: string) => void; // Cập nhật kiểu dữ liệu để nhận userId
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSuccess }) => {
@@ -35,9 +35,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
     setLoading(true);
 
     try {
+      let sessionData;
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        sessionData = data.session;
         toast.success("Đăng nhập thành công!");
       } else {
         // Validation for registration fields
@@ -47,7 +49,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
           return;
         }
 
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -58,10 +60,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ initialIsLogin = true, onAuthSucces
           },
         });
         if (error) throw error;
+        sessionData = data.session;
         toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.");
       }
-      if (onAuthSuccess) {
-        onAuthSuccess();
+      if (onAuthSuccess && sessionData?.user?.id) {
+        onAuthSuccess(sessionData.user.id); // Truyền userId sau khi xác thực thành công
       }
     } catch (error: any) {
       toast.error(error.message);

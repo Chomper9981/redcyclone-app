@@ -3,13 +3,15 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Plus, Search } from 'lucide-react'; // Import Bell and Plus icons
 import { Button } from "@/components/ui/button"; // Ensure Button is imported
+import { Link } from 'react-router-dom'; // Import Link
 
 interface AdminHeaderProps {
   userName?: string;
   userAvatarUrl?: string;
+  userId: string; // Thêm userId
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvatarUrl }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvatarUrl, userId }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
       {/* Logo */}
@@ -42,12 +44,14 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ userName = "Admin", userAvata
           <Bell size={20} />
         </Button>
         {/* User Avatar */}
-        <Avatar className="h-9 w-9">
-          <AvatarImage src={userAvatarUrl} alt={userName} />
-          <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
-            {userName.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <Link to={`/profile-user/${userId}`}> {/* Bọc Avatar bằng Link */}
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={userAvatarUrl} alt={userName} />
+            <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
+              {userName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </header>
   );

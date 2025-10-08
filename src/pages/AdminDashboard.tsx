@@ -3,8 +3,15 @@ import AdminHeader from '@/components/AdminHeader';
 import { Button } from "@/components/ui/button";
 import ContentLayout from '@/components/ContentLayout';
 import { Link } from 'react-router-dom';
+import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
-const AdminDashboard: React.FC = () => {
+interface AdminDashboardProps {
+  userProfile: UserProfile;
+  isAdmin: boolean;
+  userId: string;
+}
+
+const AdminDashboard: React.FC<AdminDashboardProps> = ({ userProfile, isAdmin, userId }) => {
   const [mainTab, setMainTab] = useState("news");
   const [subTab, setSubTab] = useState("latest");
 
@@ -16,7 +23,13 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <ContentLayout
-      headerComponent={<AdminHeader userName="Dyad User" userAvatarUrl="https://github.com/shadcn.png" />}
+      headerComponent={
+        <AdminHeader
+          userName={userProfile.nickname || userProfile.username || "Admin"}
+          userAvatarUrl={userProfile.avatar_url || undefined}
+          userId={userId} // Truyền userId
+        />
+      }
       title="Bảng điều khiển Admin"
       mainTab={mainTab}
       setMainTab={setMainTab}
@@ -31,8 +44,8 @@ const AdminDashboard: React.FC = () => {
           <Link to="/admin/account-manager">
             <Button variant="secondary">Quản lí Accounts</Button>
           </Link>
-          <Link to="/admin/account-deletion-queue"> {/* Nút mới */}
-            <Button variant="secondary">Hàng chờ xóa tài khoản</Button>
+          <Link to="/admin/management-queue"> {/* Nút đã được đổi tên và cập nhật đường dẫn */}
+            <Button variant="secondary">Hàng chờ quản lí</Button>
           </Link>
           <Link to="/admin/log-manager">
             <Button variant="secondary">Quản lí Log</Button>

@@ -1,25 +1,24 @@
 import React from 'react';
 import ProfileUserHeader from '@/components/ProfileUserHeader';
 import ProfileLayout from '@/components/ProfileLayout';
+import QRCodeDisplay from '@/components/QRCodeDisplay';
+import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
-const ProfileUser: React.FC = () => {
-  // Dữ liệu người dùng giả định
-  const currentUser = {
-    name: "Người dùng Dyad",
-    email: "user@example.com",
-    bio: "Đây là một đoạn giới thiệu ngắn về người dùng. Họ yêu thích công nghệ và phát triển web.", // Thêm bio
-    avatarUrl: "https://github.com/shadcn.png",
-    followers: 1234,
-    likes: 5678,
-    quocHon: 0, // Placeholder
-    isAdmin: true // Thêm thuộc tính isAdmin
-  };
+interface ProfileUserProps {
+  userProfile: UserProfile;
+  isAdmin: boolean;
+  userId: string;
+}
+
+const ProfileUser: React.FC<ProfileUserProps> = ({ userProfile, isAdmin, userId }) => {
+  // Sử dụng qr_codes từ userProfile, nếu không có thì mặc định là mảng rỗng
+  const userQrCodes = userProfile.qr_codes || [];
 
   const profileMainTabOptions = [
+    { value: "game", label: "Game" },
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
-    { value: "dev-guide", label: "Dev Guide" },
-    { value: "game", label: "Game" }, // Updated tab label
+    { value: "dev-share", label: "Dev Share" },
     { value: "following", label: "Được theo dõi" },
     { value: "notifications", label: "Thông báo" },
   ];
@@ -32,16 +31,27 @@ const ProfileUser: React.FC = () => {
 
   return (
     <ProfileLayout
-      header={<ProfileUserHeader userName={currentUser.name} userAvatarUrl={currentUser.avatarUrl} />}
+      header={<ProfileUserHeader userName={userProfile.nickname || userProfile.username || "Người dùng"} userAvatarUrl={userProfile.avatar_url || undefined} userId={userId} />}
       pageTitle="Hồ sơ người dùng"
-      profileData={currentUser}
+      profileData={{
+        name: userProfile.nickname || userProfile.username || "Người dùng",
+        avatarUrl: userProfile.avatar_url || undefined,
+        followers: userProfile.followers_count,
+        likes: userProfile.likes_count,
+        quocHon: userProfile.quoc_hon,
+        isAdmin: userProfile.isadmin,
+        bio: userProfile.bio,
+      }}
       isCurrentUserProfile={true}
       mainTabOptions={profileMainTabOptions}
       subTabOptions={profileSubTabOptions}
-      showSubTabsSection={true} // Luôn hiển thị sub-tabs cho profile của người dùng hiện tại
+      showSubTabsSection={true}
       showNotificationListContent={true}
       showFollowingListContent={true}
-    />
+    >
+      {/* Thêm QRCodeDisplay ngay sau phần giới thiệu */}
+      <QRCodeDisplay qrCodeUrls={userQrCodes.filter(Boolean) as string[]} />
+    </ProfileLayout>
   );
 };
 

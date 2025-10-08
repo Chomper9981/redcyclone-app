@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import AuthForm from '@/components/AuthForm';
-import { useSession } from '@/contexts/SessionContext'; // Import useSession
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useSession } from '@/contexts/SessionContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
-  const { session, loading } = useSession(); // Sử dụng hook useSession
+  const { session, loading } = useSession();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && session) {
-      // Nếu không còn loading và có session, chuyển hướng đến trang người dùng
-      navigate('/menu-user', { replace: true }); // Chuyển hướng đến trang mặc định cho người dùng
+      // Nếu không còn loading và có session, chuyển hướng đến trang người dùng với ID
+      navigate(`/menu-user/${session.user.id}`, { replace: true });
     }
   }, [session, loading, navigate]);
 
@@ -19,9 +19,10 @@ const LoginPage: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
         Đang tải...
       </div>
-    ); // Hiển thị trạng thái tải trong khi kiểm tra session
+    );
   }
 
+  // AuthForm trong LoginPage không cần onAuthSuccess vì LoginPage đã tự xử lý chuyển hướng
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
       <AuthForm />

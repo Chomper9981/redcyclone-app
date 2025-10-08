@@ -11,13 +11,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import AuthForm from '@/components/AuthForm'; // Import AuthForm
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const GuestHeader: React.FC = () => {
   const [openAuthDialog, setOpenAuthDialog] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login'); // 'login' or 'register'
+  const navigate = useNavigate();
 
-  const handleAuthSuccess = () => {
+  const handleAuthSuccess = (userId: string) => { // Nhận userId từ AuthForm
     setOpenAuthDialog(false); // Close the dialog on successful authentication
+    navigate(`/menu-user/${userId}`, { replace: true }); // Chuyển hướng đến trang người dùng với ID
   };
 
   return (

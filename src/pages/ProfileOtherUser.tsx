@@ -1,8 +1,15 @@
 import React from 'react';
 import ProfileOtherUserHeader from '@/components/ProfileOtherUserHeader';
 import ProfileLayout from '@/components/ProfileLayout';
+import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
-const ProfileOtherUser: React.FC = () => {
+interface ProfileOtherUserProps {
+  userProfile: UserProfile; // Nhận userProfile của người dùng hiện tại
+  isAdmin: boolean;
+  userId: string; // Nhận userId của người dùng hiện tại
+}
+
+const ProfileOtherUser: React.FC<ProfileOtherUserProps> = ({ userProfile, isAdmin, userId }) => {
   // Dữ liệu người dùng khác giả định
   const otherUser = {
     name: "Người dùng Khác",
@@ -14,18 +21,11 @@ const ProfileOtherUser: React.FC = () => {
     isAdmin: false // Thêm thuộc tính isAdmin
   };
 
-  // Dữ liệu người dùng hiện tại (để hiển thị trên header)
-  const currentUser = {
-    name: "Người dùng",
-    avatarUrl: "https://github.com/shadcn.png",
-    quocHon: 150 // Giả định Quốc Hồn của người dùng hiện tại
-  };
-
   const profileMainTabOptions = [
+    { value: "game", label: "Game" }, // Game lên đầu
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
-    { value: "dev-guide", label: "Dev Guide" },
-    { value: "game", label: "Game" }, // Updated tab label
+    { value: "dev-share", label: "Dev Share" }, // Đổi tên
     { value: "following", label: "Được theo dõi" },
   ];
 
@@ -36,7 +36,14 @@ const ProfileOtherUser: React.FC = () => {
 
   return (
     <ProfileLayout
-      header={<ProfileOtherUserHeader userName={currentUser.name} userAvatarUrl={currentUser.avatarUrl} currentUserQuocHon={currentUser.quocHon} />}
+      header={
+        <ProfileOtherUserHeader
+          userName={userProfile.nickname || userProfile.username || "Người dùng"}
+          userAvatarUrl={userProfile.avatar_url || undefined}
+          currentUserQuocHon={userProfile.quoc_hon}
+          userId={userId} // Truyền userId của người dùng hiện tại
+        />
+      }
       pageTitle="Hồ sơ người dùng khác"
       profileData={otherUser}
       isCurrentUserProfile={false}

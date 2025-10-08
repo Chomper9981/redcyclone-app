@@ -2,13 +2,15 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell } from 'lucide-react'; // Chỉ import Bell icon
 import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom'; // Import Link
 
 interface CreatePostHeaderProps {
   userName?: string;
   userAvatarUrl?: string;
+  userId: string; // Thêm userId
 }
 
-const CreatePostHeader: React.FC<CreatePostHeaderProps> = ({ userName = "User", userAvatarUrl }) => {
+const CreatePostHeader: React.FC<CreatePostHeaderProps> = ({ userName = "User", userAvatarUrl, userId }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
       {/* Logo */}
@@ -30,12 +32,14 @@ const CreatePostHeader: React.FC<CreatePostHeaderProps> = ({ userName = "User", 
           <Bell size={20} />
         </Button>
         {/* User Avatar */}
-        <Avatar className="h-9 w-9">
-          <AvatarImage src={userAvatarUrl} alt={userName} />
-          <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
-            {userName.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <Link to={`/profile-user/${userId}`}> {/* Bọc Avatar bằng Link */}
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={userAvatarUrl} alt={userName} />
+            <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
+              {userName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </header>
   );

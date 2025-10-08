@@ -17,16 +17,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
 const LOCAL_STORAGE_DRAFT_KEY = 'create_post_draft';
 const DEBOUNCE_DELAY = 1000; // 1 second
 
-const CreatePost: React.FC = () => {
-  const currentUser = {
-    name: "Người dùng Dyad",
-    avatarUrl: "https://github.com/shadcn.png",
-  };
+interface CreatePostProps {
+  userProfile: UserProfile;
+  isAdmin: boolean;
+  userId: string;
+}
 
+const CreatePost: React.FC<CreatePostProps> = ({ userProfile, isAdmin, userId }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postType, setPostType] = useState('news');
@@ -40,10 +42,10 @@ const CreatePost: React.FC = () => {
   const draftDataRef = useRef<{ title: string; content: string; postType: string; quocHon: string } | null>(null);
 
   const postTypeOptions = [
+    { value: "game", label: "Game" }, // Game lên đầu
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
-    { value: "dev-guide", label: "Dev Guide" },
-    { value: "game", label: "Game" },
+    { value: "dev-share", label: "Dev Share" }, // Đổi tên
   ];
 
   // Effect để lưu nháp vào localStorage
@@ -149,7 +151,7 @@ const CreatePost: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
-      <CreatePostHeader userName={currentUser.name} userAvatarUrl={currentUser.avatarUrl} />
+      <CreatePostHeader userName={userProfile.nickname || userProfile.username || "Người dùng"} userAvatarUrl={userProfile.avatar_url || undefined} userId={userId} />
       <main className="flex-grow p-4 container mx-auto">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Đăng bài viết mới</h2>
 

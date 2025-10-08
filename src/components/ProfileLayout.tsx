@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Import CardHeader, CardTitle
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,8 @@ import ContentGridPlaceholder from '@/components/ContentGridPlaceholder';
 import PaginationComponent from '@/components/PaginationComponent';
 import FollowingList from '@/components/FollowingList';
 import NotificationList from '@/components/NotificationList';
-import { toast } from 'sonner'; // Import toast from sonner
-import { Badge } from "@/components/ui/badge"; // Import Badge
+import { toast } from 'sonner';
+import { Badge } from "@/components/ui/badge";
 
 interface ProfileLayoutProps {
   header: React.ReactNode;
@@ -18,16 +18,17 @@ interface ProfileLayoutProps {
     avatarUrl: string;
     followers: number;
     likes: number;
-    quocHon?: number; // Only for current user's profile
-    isAdmin?: boolean; // Add isAdmin property
-    bio?: string; // Thêm thuộc tính bio
+    quocHon?: number;
+    isAdmin?: boolean;
+    bio?: string;
   };
   isCurrentUserProfile: boolean;
   mainTabOptions: { value: string; label: string }[];
   subTabOptions: { value: string; label: string }[];
   showSubTabsSection: boolean;
-  showNotificationListContent: boolean; // Controls if NotificationList is rendered
-  showFollowingListContent: boolean; // Controls if FollowingList is rendered
+  showNotificationListContent: boolean;
+  showFollowingListContent: boolean;
+  children?: React.ReactNode; // Đảm bảo prop này được định nghĩa
 }
 
 const ProfileLayout: React.FC<ProfileLayoutProps> = ({
@@ -40,12 +41,13 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
   showSubTabsSection,
   showNotificationListContent,
   showFollowingListContent,
+  children, // Nhận children prop
 }) => {
-  const [mainTab, setMainTab] = useState("news");
+  const [mainTab, setMainTab] = useState("game");
   const [subTab, setSubTab] = useState("latest");
 
   const handleGuestAction = () => {
-    toast.info("Cần đăng nhập để dùng chức năng này");
+    // toast.info("Cần đăng nhập để dùng chức năng này"); // Removed
   };
 
   return (
@@ -107,9 +109,12 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           </CardContent>
         </Card>
 
+        {/* Render children prop here, which will be the QRCodeManager */}
+        {children}
+
         {/* Hàng 3: Các tab chính */}
         <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-          <Tabs defaultValue="news" value={mainTab} onValueChange={setMainTab}>
+          <Tabs defaultValue="game" value={mainTab} onValueChange={setMainTab}>
             <TabsList className="flex w-full flex-nowrap overflow-x-auto">
               {mainTabOptions.map(option => (
                 <TabsTrigger key={option.value} value={option.value} className="flex-1 whitespace-nowrap">
@@ -138,14 +143,14 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
         {/* Hàng 5: Nội dung chính dựa trên tab đã chọn */}
         <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            {mainTab === "game" && "Game"}
             {mainTab === "news" && "Tin tức mới nhất"}
             {mainTab === "guide" && "Hướng dẫn Game"}
-            {mainTab === "dev-guide" && "Hướng dẫn Phát triển"}
-            {mainTab === "game" && "Game"} {/* Updated tab title */}
+            {mainTab === "dev-share" && "Hướng dẫn Phát triển"}
             {mainTab === "following" && "Danh sách đang theo dõi"}
             {mainTab === "notifications" && "Thông báo của bạn"}
           </h3>
-          {(mainTab === "news" || mainTab === "guide" || mainTab === "dev-guide" || mainTab === "game") ? (
+          {(mainTab === "game" || mainTab === "news" || mainTab === "guide" || mainTab === "dev-share") ? (
             <>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Đang hiển thị nội dung cho: **{mainTab}** (phụ: **{subTab}**)

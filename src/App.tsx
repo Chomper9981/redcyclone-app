@@ -15,12 +15,15 @@ import AccountManagerAdmin from "./pages/AccountManagerAdmin";
 import LogManagerAdmin from "./pages/LogManagerAdmin";
 import EditProfile from "./pages/EditProfile";
 import EditBasicInfo from "./pages/EditBasicInfo";
-import AccountDeletionQueueAdmin from "./pages/AccountDeletionQueueAdmin";
+import EditQRCode from "./pages/EditQRCode";
+import AccountManagementQueueAdmin from "./pages/AccountManagementQueueAdmin";
 import CreatePost from "./pages/CreatePost";
-import ViewPost from "./pages/ViewPost"; // Import ViewPost
+import ViewPost from "./pages/ViewPost";
+import ViewPostGuest from "./pages/ViewPostGuest"; // Import ViewPostGuest
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import { SessionProvider } from "./contexts/SessionContext";
+import AuthGuard from "./components/AuthGuard"; // Import AuthGuard
 
 const queryClient = new QueryClient();
 
@@ -35,19 +38,28 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/menu-guest" element={<MenuGuest />} />
-            <Route path="/menu-user" element={<MenuUser />} />
-            <Route path="/profile-user" element={<ProfileUser />} />
+            <Route path="/view-post-guest" element={<ViewPostGuest />} /> {/* Thêm route mới */}
+            
+            {/* Route được bảo vệ bởi AuthGuard */}
+            <Route path="/menu-user/:userId" element={<AuthGuard component={MenuUser} />} />
+            <Route path="/profile-user/:userId" element={<AuthGuard component={ProfileUser} />} />
+            <Route path="/edit-profile" element={<AuthGuard component={EditProfile} />} />
+            <Route path="/edit-profile/basic-info" element={<AuthGuard component={EditBasicInfo} />} />
+            <Route path="/edit-profile/qr-code" element={<AuthGuard component={EditQRCode} />} />
+            <Route path="/create-post" element={<AuthGuard component={CreatePost} />} />
+            <Route path="/view-post" element={<AuthGuard component={ViewPost} />} />
+
+            {/* Các route Admin được bảo vệ bởi AuthGuard */}
+            <Route path="/admin" element={<AuthGuard component={AdminDashboard} />} />
+            <Route path="/admin/account-manager" element={<AuthGuard component={AccountManagerAdmin} />} />
+            <Route path="/admin/log-manager" element={<AuthGuard component={LogManagerAdmin} />} />
+            <Route path="/admin/management-queue" element={<AuthGuard component={AccountManagementQueueAdmin} />} />
+            
+            {/* Các route khác không cần AuthGuard hoặc có logic riêng */}
             <Route path="/profile-other-user" element={<ProfileOtherUser />} />
             <Route path="/profile-other-user-for-guest" element={<ProfileOtherUserForGuest />} />
-            <Route path="/admin/account-manager" element={<AccountManagerAdmin />} />
-            <Route path="/admin/log-manager" element={<LogManagerAdmin />} />
-            <Route path="/admin/account-deletion-queue" element={<AccountDeletionQueueAdmin />} />
-            <Route path="/edit-profile" element={<EditProfile />} />
-            <Route path="/edit-profile/basic-info" element={<EditBasicInfo />} />
-            <Route path="/create-post" element={<CreatePost />} />
-            <Route path="/view-post" element={<ViewPost />} /> {/* Thêm route mới */}
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

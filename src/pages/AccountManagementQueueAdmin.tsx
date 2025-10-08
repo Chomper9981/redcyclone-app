@@ -1,16 +1,15 @@
 import React from 'react';
 import AdminHeader from '@/components/AdminHeader';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import LogTable from '@/components/LogTable'; // Import LogTable
 import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
-interface LogManagerAdminProps {
+interface AccountManagementQueueAdminProps {
   userProfile: UserProfile;
   isAdmin: boolean;
   userId: string;
 }
 
-const LogManagerAdmin: React.FC<LogManagerAdminProps> = ({ userProfile, isAdmin, userId }) => {
+const AccountManagementQueueAdmin: React.FC<AccountManagementQueueAdminProps> = ({ userProfile, isAdmin, userId }) => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
       <AdminHeader
@@ -19,14 +18,17 @@ const LogManagerAdmin: React.FC<LogManagerAdminProps> = ({ userProfile, isAdmin,
         userId={userId} // Truyền userId
       />
       <main className="flex-grow p-4 container mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Quản lý Log</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Hàng chờ quản lí</h2>
 
         <Card>
           <CardHeader>
-            <CardTitle>Danh sách Log hệ thống</CardTitle>
+            <CardTitle>Danh sách các yêu cầu quản lí</CardTitle>
           </CardHeader>
           <CardContent>
-            <LogTable /> {/* Render LogTable component */}
+            <p className="text-gray-700 dark:text-gray-300">
+              Đây là nơi hiển thị các yêu cầu quản lí tài khoản.
+              Chức năng này sẽ được phát triển sau.
+            </p>
           </CardContent>
         </Card>
       </main>
@@ -34,4 +36,4 @@ const LogManagerAdmin: React.FC<LogManagerAdminProps> = ({ userProfile, isAdmin,
   );
 };
 
-export default LogManagerAdmin;
+export default AccountManagementQueueAdmin;

@@ -2,14 +2,15 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, ArrowLeft, Plus } from 'lucide-react'; // Import Plus icon
 import { Button } from "@/components/ui/button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate và Link
 
 interface PostViewHeaderProps {
   userName?: string;
   userAvatarUrl?: string;
+  userId: string; // Thêm userId
 }
 
-const PostViewHeader: React.FC<PostViewHeaderProps> = ({ userName = "User", userAvatarUrl }) => {
+const PostViewHeader: React.FC<PostViewHeaderProps> = ({ userName = "User", userAvatarUrl, userId }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -48,12 +49,14 @@ const PostViewHeader: React.FC<PostViewHeaderProps> = ({ userName = "User", user
           <Bell size={20} />
         </Button>
         {/* User Avatar */}
-        <Avatar className="h-9 w-9">
-          <AvatarImage src={userAvatarUrl} alt={userName} />
-          <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
-            {userName.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <Link to={`/profile-user/${userId}`}> {/* Bọc Avatar bằng Link */}
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={userAvatarUrl} alt={userName} />
+            <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
+              {userName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </header>
   );

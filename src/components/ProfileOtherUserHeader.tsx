@@ -2,17 +2,20 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Plus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom'; // Import Link
 
 interface ProfileOtherUserHeaderProps {
   userName?: string;
   userAvatarUrl?: string;
   currentUserQuocHon?: number; // Thêm prop cho Quốc Hồn của người dùng hiện tại
+  userId: string; // Thêm userId
 }
 
 const ProfileOtherUserHeader: React.FC<ProfileOtherUserHeaderProps> = ({
   userName = "User",
   userAvatarUrl,
-  currentUserQuocHon = 150 // Giá trị Quốc Hồn giả định cho người dùng hiện tại
+  currentUserQuocHon = 150, // Giá trị Quốc Hồn giả định cho người dùng hiện tại
+  userId, // Nhận userId
 }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
@@ -45,12 +48,14 @@ const ProfileOtherUserHeader: React.FC<ProfileOtherUserHeaderProps> = ({
           <Bell size={20} />
         </Button>
         {/* User Avatar */}
-        <Avatar className="h-9 w-9">
-          <AvatarImage src={userAvatarUrl} alt={userName} />
-          <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
-            {userName.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <Link to={`/profile-user/${userId}`}> {/* Bọc Avatar bằng Link */}
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={userAvatarUrl} alt={userName} />
+            <AvatarFallback className="bg-blue-500 dark:bg-blue-600 text-white">
+              {userName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </header>
   );

@@ -34,21 +34,19 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({
 
         {/* Hàng: 4 tab chính (bộ lọc) */}
         <section className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-          <Tabs defaultValue="news" value={mainTab} onValueChange={setMainTab}>
+          <Tabs defaultValue="game" value={mainTab} onValueChange={setMainTab}> {/* Đặt defaultValue là 'game' */}
             {/* Sử dụng flexbox để đảm bảo các tab nằm trên một hàng, flex-nowrap ngăn chúng xuống dòng */}
             <TabsList className="flex w-full flex-nowrap overflow-x-auto">
+              <TabsTrigger value="game" className="flex-1 whitespace-nowrap">Game</TabsTrigger> {/* Game lên đầu */}
               <TabsTrigger value="news" className="flex-1 whitespace-nowrap">Tin tức</TabsTrigger>
               <TabsTrigger value="guide" className="flex-1 whitespace-nowrap">Game Guide</TabsTrigger>
-              <TabsTrigger value="dev-guide" className="flex-1 whitespace-nowrap">Dev Guide</TabsTrigger>
-              <TabsTrigger value="game" className="flex-1 whitespace-nowrap">Game</TabsTrigger>
-              {/* Removed Official Tab */}
+              <TabsTrigger value="dev-share" className="flex-1 whitespace-nowrap">Dev Share</TabsTrigger> {/* Đổi tên */}
             </TabsList>
             {/* Nội dung tab này sẽ không hiển thị trực tiếp mà sẽ ảnh hưởng đến ContentGridPlaceholder */}
+            <TabsContent value="game" className="hidden"></TabsContent>
             <TabsContent value="news" className="hidden"></TabsContent>
             <TabsContent value="guide" className="hidden"></TabsContent>
-            <TabsContent value="dev-guide" className="hidden"></TabsContent>
-            <TabsContent value="game" className="hidden"></TabsContent>
-            {/* Removed Official Tab Content */}
+            <TabsContent value="dev-share" className="hidden"></TabsContent> {/* Đổi tên */}
           </Tabs>
         </section>
 

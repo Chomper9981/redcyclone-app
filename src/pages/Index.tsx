@@ -1,18 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useSession } from '@/contexts/SessionContext'; // Import useSession
 
 const Index = () => {
+  const { session } = useSession(); // Lấy session để tạo liên kết động
+
   const navigationLinks = [
     { to: "/login", label: "Đi đến Đăng nhập", variant: "default" },
     { to: "/admin", label: "Đi đến Admin", variant: "secondary" },
     { to: "/menu-guest", label: "Đi đến Giao diện Khách", variant: "outline" },
-    { to: "/menu-user", label: "Đi đến Giao diện Người dùng", variant: "default" },
-    { to: "/profile-user", label: "Đi đến Hồ sơ Người dùng", variant: "ghost" },
+    // Liên kết động đến trang người dùng nếu đã đăng nhập
+    { to: session ? `/menu-user/${session.user.id}` : "/login", label: "Đi đến Giao diện Người dùng", variant: "default" },
+    { to: session ? `/profile-user/${session.user.id}` : "/login", label: "Đi đến Hồ sơ Người dùng", variant: "ghost" },
     { to: "/profile-other-user", label: "Đi đến Hồ sơ Người dùng Khác", variant: "destructive" },
     { to: "/profile-other-user-for-guest", label: "Hồ sơ Người dùng Khác (Khách)", variant: "link" },
-    { to: "/edit-profile", label: "Đi đến Sửa Hồ sơ", variant: "default" },
-    { to: "/create-post", label: "Đi đến Đăng bài viết", variant: "default" },
-    { to: "/view-post", label: "Đi đến Xem bài viết", variant: "default" }, // Thêm liên kết mới
+    { to: session ? "/edit-profile" : "/login", label: "Đi đến Sửa Hồ sơ", variant: "default" },
+    { to: session ? "/create-post" : "/login", label: "Đi đến Đăng bài viết", variant: "default" },
+    { to: session ? "/view-post" : "/login", label: "Đi đến Xem bài viết", variant: "default" },
+    { to: "/view-post-guest", label: "Đi đến Xem bài viết (Khách)", variant: "secondary" }, // Thêm liên kết mới
   ];
 
   return (

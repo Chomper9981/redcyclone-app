@@ -14,10 +14,10 @@ const ProfileOtherUserForGuest: React.FC = () => {
   };
 
   const profileMainTabOptions = [
+    { value: "game", label: "Game" }, // Game lên đầu
     { value: "news", label: "Tin tức" },
     { value: "guide", label: "Game Guide" },
-    { value: "dev-guide", label: "Dev Guide" },
-    { value: "game", label: "Game" }, // Updated tab label
+    { value: "dev-share", label: "Dev Share" }, // Đổi tên
     { value: "following", label: "Được theo dõi" },
   ];
 

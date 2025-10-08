@@ -1,12 +1,11 @@
 import React from 'react';
-import PostViewHeader from '@/components/PostViewHeader';
+import GuestHeader from '@/components/GuestHeader'; // Import GuestHeader
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ThumbsUp, MessageSquare } from 'lucide-react'; // Import icons
 import { Button } from "@/components/ui/button"; // Import Button
 import { toast } from 'sonner'; // Import toast
-import { UserProfile } from '@/components/AuthGuard'; // Import UserProfile type
 
 interface Post {
   id: string;
@@ -38,13 +37,7 @@ const mockPost: Post = {
   quocHon: 250, // Đặt giá trị Quốc Hồn lớn hơn 0
 };
 
-interface ViewPostProps {
-  userProfile: UserProfile;
-  isAdmin: boolean;
-  userId: string;
-}
-
-const ViewPost: React.FC<ViewPostProps> = ({ userProfile, isAdmin, userId }) => {
+const ViewPostGuest: React.FC = () => {
   // Định dạng ngày tạo
   const formattedDate = new Date(mockPost.createdAt).toLocaleDateString('vi-VN', {
     year: 'numeric',
@@ -54,21 +47,13 @@ const ViewPost: React.FC<ViewPostProps> = ({ userProfile, isAdmin, userId }) => 
     minute: '2-digit',
   });
 
-  const handleGuigamQuocHon = () => {
-    // toast.info("Chức năng Gửi gắm Quốc Hồn sẽ được phát triển sau."); // Removed
-  };
-
-  const handleTaiGame = () => {
-    // toast.info("Chức năng Tải Game sẽ được phát triển sau."); // Removed
-  };
-
-  const handleMuaGame = () => {
-    // toast.info("Chức năng Mua Game sẽ được phát triển sau."); // Removed
+  const handleGuestAction = () => {
+    toast.info("Bạn cần đăng nhập để sử dụng chức năng này.");
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
-      <PostViewHeader userName={userProfile.nickname || userProfile.username || "Người dùng"} userAvatarUrl={userProfile.avatar_url || undefined} userId={userId} />
+      <GuestHeader /> {/* Sử dụng GuestHeader */}
       <main className="flex-grow p-4 container mx-auto max-w-3xl">
         <Card className="mb-6">
           <CardHeader>
@@ -101,12 +86,12 @@ const ViewPost: React.FC<ViewPostProps> = ({ userProfile, isAdmin, userId }) => 
           <CardContent className="p-0 flex flex-col space-y-4">
             {/* Các nút hành động */}
             <div className="flex flex-wrap justify-center gap-2">
-              <Button variant="outline" onClick={handleGuigamQuocHon}>Gửi gắm Quốc Hồn</Button>
+              <Button variant="outline" onClick={handleGuestAction}>Gửi gắm Quốc Hồn</Button>
               {mockPost.mainCategory === 'game' && (
                 <>
-                  <Button onClick={handleTaiGame}>Tải Game</Button>
+                  <Button onClick={handleGuestAction}>Tải Game</Button>
                   {mockPost.quocHon && mockPost.quocHon > 0 && (
-                    <Button variant="secondary" onClick={handleMuaGame}>Mua Game</Button>
+                    <Button variant="secondary" onClick={handleGuestAction}>Mua Game</Button>
                   )}
                 </>
               )}
@@ -130,7 +115,7 @@ const ViewPost: React.FC<ViewPostProps> = ({ userProfile, isAdmin, userId }) => 
           <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Bình luận</CardTitle>
           <CardContent>
             <p className="text-gray-700 dark:text-gray-300">
-              Chức năng bình luận sẽ được phát triển sau.
+              Bạn cần đăng nhập để bình luận.
             </p>
           </CardContent>
         </Card>
@@ -139,4 +124,4 @@ const ViewPost: React.FC<ViewPostProps> = ({ userProfile, isAdmin, userId }) => 
   );
 };
 
-export default ViewPost;
+export default ViewPostGuest;
